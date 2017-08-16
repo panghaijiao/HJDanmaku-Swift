@@ -1,3 +1,22 @@
-PODFILE CHECKSUM: 379dec2ef2e9efa897995ae5d03bedb6d2e3859d
+PODS:
+  - Alamofire (4.5.0)
+  - HJDanmaku-Swift (2.0.0)
+  - Kingfisher (3.10.4)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.4)
+  - HJDanmaku-Swift (from `./`)
+  - Kingfisher
+
+EXTERNAL SOURCES:
+  HJDanmaku-Swift:
+    :path: "./"
+
+SPEC CHECKSUMS:
+  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
+  HJDanmaku-Swift: 9b2aa6c39d9420d993164e38663fffe1a736f538
+  Kingfisher: dc3a4983e86d2dfa89513664983a82340c11a289
+
+PODFILE CHECKSUM: 89dca3a85a20236f070be756db8dcfcf8d6970dd
 
 COCOAPODS: 1.1.1

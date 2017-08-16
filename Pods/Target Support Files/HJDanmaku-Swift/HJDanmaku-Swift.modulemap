@@ -1,0 +1,6 @@
+framework module HJDanmaku_Swift {
+  umbrella header "HJDanmaku-Swift-umbrella.h"
+
+  export *
+  module * { export * }
+}
