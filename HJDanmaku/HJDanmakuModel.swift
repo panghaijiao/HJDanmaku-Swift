@@ -8,6 +8,18 @@
 
 import UIKit
 
-open class HJDanmakuModel: NSObject {
+public enum HJDanmakuType {
+    case HJDanmakuTypeLR
+    case HJDanmakuTypeFT
+    case HJDanmakuTypeFB
+}
 
+open class HJDanmakuModel {
+    
+    public var danmakuType: HJDanmakuType = .HJDanmakuTypeLR
+    
+    public init(danmakuType: HJDanmakuType) {
+        self.danmakuType = danmakuType
+    }
+    
 }

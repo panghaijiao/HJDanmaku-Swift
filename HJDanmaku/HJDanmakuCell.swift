@@ -20,7 +20,7 @@ open class HJDanmakuCell: UIView {
     
     public var selectionStyle: HJDanmakuCellSelectionStyle = .HJDanmakuCellSelectionStyleNone
     
-    lazy var textLabel: UILabel = {
+    open lazy var textLabel: UILabel = {
         let textLabel = UILabel.init(frame: self.bounds)
         textLabel.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.addSubview(textLabel)
@@ -38,7 +38,7 @@ open class HJDanmakuCell: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func prepareForReuse() {
+    open func prepareForReuse() {
         
     }
 }

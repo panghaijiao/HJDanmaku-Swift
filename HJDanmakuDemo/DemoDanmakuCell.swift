@@ -9,6 +9,11 @@
 import UIKit
 import HJDanmaku_Swift
 
-class DemoDanmakuCell: UIView {
+class DemoDanmakuCell: HJDanmakuCell {
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.layer.borderWidth = 0
+    }
 
 }

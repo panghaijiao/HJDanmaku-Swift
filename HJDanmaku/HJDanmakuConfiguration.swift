@@ -8,6 +8,17 @@
 
 import UIKit
 
-open class HJDanmakuConfiguration: NSObject {
+public enum HJDanmakuMode {
+    case HJDanmakuModeVideo
+    case HJDanmakuModeLive
+}
 
+open class HJDanmakuConfiguration {
+    
+    public var danmakuMode: HJDanmakuMode = .HJDanmakuModeVideo
+    
+    public init(danmakuMode: HJDanmakuMode) {
+        self.danmakuMode = danmakuMode
+    }
+    
 }

@@ -92,13 +92,13 @@
 		A05AE11E1F4C26DF00248BAD /* HJDanmakuDemo */ = {
 			isa = PBXGroup;
 			children = (
+				A05AE11F1F4C26DF00248BAD /* AppDelegate.swift */,
 				A05AE1281F4C26DF00248BAD /* MenuTableViewController.swift */,
 				A05AE1291F4C26DF00248BAD /* VideoDemoViewController.swift */,
 				A05AE12A1F4C26DF00248BAD /* VideoDemoViewController.xib */,
 				A05AE1261F4C26DF00248BAD /* LiveDemoViewController.swift */,
 				A05AE1271F4C26DF00248BAD /* LiveDemoViewController.xib */,
 				A05AE1241F4C26DF00248BAD /* DemoDanmakuCell.swift */,
-				A05AE11F1F4C26DF00248BAD /* AppDelegate.swift */,
 				A05AE1231F4C26DF00248BAD /* danmakufile */,
 				A05AE1201F4C26DF00248BAD /* Assets.xcassets */,
 				A05AE1211F4C26DF00248BAD /* LaunchScreen.storyboard */,
