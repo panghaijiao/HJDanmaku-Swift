@@ -12,7 +12,6 @@
 		A05AE12D1F4C26DF00248BAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A05AE1211F4C26DF00248BAD /* LaunchScreen.storyboard */; };
 		A05AE12E1F4C26DF00248BAD /* danmakufile in Resources */ = {isa = PBXBuildFile; fileRef = A05AE1231F4C26DF00248BAD /* danmakufile */; };
 		A05AE12F1F4C26DF00248BAD /* DemoDanmakuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05AE1241F4C26DF00248BAD /* DemoDanmakuCell.swift */; };
-		A05AE1301F4C26DF00248BAD /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A05AE1251F4C26DF00248BAD /* Info.plist */; };
 		A05AE1311F4C26DF00248BAD /* LiveDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05AE1261F4C26DF00248BAD /* LiveDemoViewController.swift */; };
 		A05AE1321F4C26DF00248BAD /* LiveDemoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A05AE1271F4C26DF00248BAD /* LiveDemoViewController.xib */; };
 		A05AE1331F4C26DF00248BAD /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05AE1281F4C26DF00248BAD /* MenuTableViewController.swift */; };
@@ -100,9 +99,9 @@
 				A05AE1271F4C26DF00248BAD /* LiveDemoViewController.xib */,
 				A05AE1241F4C26DF00248BAD /* DemoDanmakuCell.swift */,
 				A05AE11F1F4C26DF00248BAD /* AppDelegate.swift */,
+				A05AE1231F4C26DF00248BAD /* danmakufile */,
 				A05AE1201F4C26DF00248BAD /* Assets.xcassets */,
 				A05AE1211F4C26DF00248BAD /* LaunchScreen.storyboard */,
-				A05AE1231F4C26DF00248BAD /* danmakufile */,
 				A05AE1251F4C26DF00248BAD /* Info.plist */,
 			);
 			path = HJDanmakuDemo;
@@ -170,7 +169,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A05AE1301F4C26DF00248BAD /* Info.plist in Resources */,
 				A05AE12C1F4C26DF00248BAD /* Assets.xcassets in Resources */,
 				A05AE12D1F4C26DF00248BAD /* LaunchScreen.storyboard in Resources */,
 				A05AE12E1F4C26DF00248BAD /* danmakufile in Resources */,
@@ -355,7 +353,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = "HJDanmaku-Swift/Info.plist";
+				INFOPLIST_FILE = HJDanmakuDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.olinone.HJDanmaku-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -369,7 +367,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = "HJDanmaku-Swift/Info.plist";
+				INFOPLIST_FILE = HJDanmakuDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.olinone.HJDanmaku-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";

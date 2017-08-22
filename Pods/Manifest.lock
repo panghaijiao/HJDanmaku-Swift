@@ -1,7 +1,7 @@
 PODS:
   - Alamofire (4.5.0)
   - HJDanmaku-Swift (2.0.0)
-  - Kingfisher (3.10.4)
+  - Kingfisher (3.11.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.4)
@@ -15,7 +15,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
   HJDanmaku-Swift: 9b2aa6c39d9420d993164e38663fffe1a736f538
-  Kingfisher: dc3a4983e86d2dfa89513664983a82340c11a289
+  Kingfisher: c8911a7672c6217dec8c0520fb6e76ec4b7e0780
 
 PODFILE CHECKSUM: 89dca3a85a20236f070be756db8dcfcf8d6970dd
 
