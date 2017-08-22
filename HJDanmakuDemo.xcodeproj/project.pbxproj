@@ -7,16 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A03542421F431E2800CE4F7A /* DemoDanmakuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03542411F431E2800CE4F7A /* DemoDanmakuCell.swift */; };
-		A039EFD51F2F333700259173 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A039EFD41F2F333700259173 /* AppDelegate.swift */; };
-		A039EFDC1F2F333700259173 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A039EFDB1F2F333700259173 /* Assets.xcassets */; };
-		A039EFDF1F2F333700259173 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A039EFDD1F2F333700259173 /* LaunchScreen.storyboard */; };
-		A0E1FA851F2F370900157E27 /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0E1FA841F2F370900157E27 /* MenuTableViewController.swift */; };
-		A0EA17AE1F31C42D002E867D /* LiveDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EA17AC1F31C42D002E867D /* LiveDemoViewController.swift */; };
-		A0EA17AF1F31C42D002E867D /* LiveDemoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0EA17AD1F31C42D002E867D /* LiveDemoViewController.xib */; };
-		A0EA17B11F31C491002E867D /* danmakufile in Resources */ = {isa = PBXBuildFile; fileRef = A0EA17B01F31C491002E867D /* danmakufile */; };
-		A0EA17B41F31C4C5002E867D /* VideoDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EA17B21F31C4C5002E867D /* VideoDemoViewController.swift */; };
-		A0EA17B51F31C4C5002E867D /* VideoDemoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0EA17B31F31C4C5002E867D /* VideoDemoViewController.xib */; };
+		A05AE12B1F4C26DF00248BAD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05AE11F1F4C26DF00248BAD /* AppDelegate.swift */; };
+		A05AE12C1F4C26DF00248BAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A05AE1201F4C26DF00248BAD /* Assets.xcassets */; };
+		A05AE12D1F4C26DF00248BAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A05AE1211F4C26DF00248BAD /* LaunchScreen.storyboard */; };
+		A05AE12E1F4C26DF00248BAD /* danmakufile in Resources */ = {isa = PBXBuildFile; fileRef = A05AE1231F4C26DF00248BAD /* danmakufile */; };
+		A05AE12F1F4C26DF00248BAD /* DemoDanmakuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05AE1241F4C26DF00248BAD /* DemoDanmakuCell.swift */; };
+		A05AE1301F4C26DF00248BAD /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A05AE1251F4C26DF00248BAD /* Info.plist */; };
+		A05AE1311F4C26DF00248BAD /* LiveDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05AE1261F4C26DF00248BAD /* LiveDemoViewController.swift */; };
+		A05AE1321F4C26DF00248BAD /* LiveDemoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A05AE1271F4C26DF00248BAD /* LiveDemoViewController.xib */; };
+		A05AE1331F4C26DF00248BAD /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05AE1281F4C26DF00248BAD /* MenuTableViewController.swift */; };
+		A05AE1341F4C26DF00248BAD /* VideoDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05AE1291F4C26DF00248BAD /* VideoDemoViewController.swift */; };
+		A05AE1351F4C26DF00248BAD /* VideoDemoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A05AE12A1F4C26DF00248BAD /* VideoDemoViewController.xib */; };
 		D57085C2CD2FBD77259A5360 /* Pods_HJDanmakuDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B3E66886D6951862341E4F3 /* Pods_HJDanmakuDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -25,18 +26,18 @@
 		5B933828B454DAD63885EF21 /* Pods-HJDanmaku-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HJDanmaku-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HJDanmaku-Swift/Pods-HJDanmaku-Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		7A6D1AAC5D798709ED47E3E9 /* Pods-HJDanmakuDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HJDanmakuDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HJDanmakuDemo/Pods-HJDanmakuDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		8B3E66886D6951862341E4F3 /* Pods_HJDanmakuDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HJDanmakuDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A03542411F431E2800CE4F7A /* DemoDanmakuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoDanmakuCell.swift; sourceTree = "<group>"; };
 		A039EFD11F2F333700259173 /* HJDanmakuDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HJDanmakuDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A039EFD41F2F333700259173 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A039EFDB1F2F333700259173 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		A039EFDE1F2F333700259173 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		A039EFE01F2F333700259173 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A0E1FA841F2F370900157E27 /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
-		A0EA17AC1F31C42D002E867D /* LiveDemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveDemoViewController.swift; sourceTree = "<group>"; };
-		A0EA17AD1F31C42D002E867D /* LiveDemoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LiveDemoViewController.xib; sourceTree = "<group>"; };
-		A0EA17B01F31C491002E867D /* danmakufile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = danmakufile; sourceTree = "<group>"; };
-		A0EA17B21F31C4C5002E867D /* VideoDemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoDemoViewController.swift; sourceTree = "<group>"; };
-		A0EA17B31F31C4C5002E867D /* VideoDemoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoDemoViewController.xib; sourceTree = "<group>"; };
+		A05AE11F1F4C26DF00248BAD /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A05AE1201F4C26DF00248BAD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A05AE1221F4C26DF00248BAD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A05AE1231F4C26DF00248BAD /* danmakufile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = danmakufile; sourceTree = "<group>"; };
+		A05AE1241F4C26DF00248BAD /* DemoDanmakuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoDanmakuCell.swift; sourceTree = "<group>"; };
+		A05AE1251F4C26DF00248BAD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A05AE1261F4C26DF00248BAD /* LiveDemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveDemoViewController.swift; sourceTree = "<group>"; };
+		A05AE1271F4C26DF00248BAD /* LiveDemoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LiveDemoViewController.xib; sourceTree = "<group>"; };
+		A05AE1281F4C26DF00248BAD /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
+		A05AE1291F4C26DF00248BAD /* VideoDemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoDemoViewController.swift; sourceTree = "<group>"; };
+		A05AE12A1F4C26DF00248BAD /* VideoDemoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoDemoViewController.xib; sourceTree = "<group>"; };
 		B89A6B5EBDCFE759AA746B6C /* Pods-HJDanmaku-Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HJDanmaku-Swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-HJDanmaku-Swift/Pods-HJDanmaku-Swift.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -74,7 +75,7 @@
 		A039EFC81F2F333700259173 = {
 			isa = PBXGroup;
 			children = (
-				A039EFD31F2F333700259173 /* HJDanmaku-Swift */,
+				A05AE11E1F4C26DF00248BAD /* HJDanmakuDemo */,
 				A039EFD21F2F333700259173 /* Products */,
 				7A3DB1C082081E54B8ECFAA0 /* Pods */,
 				3548677ECAE04026028F0A72 /* Frameworks */,
@@ -89,22 +90,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A039EFD31F2F333700259173 /* HJDanmaku-Swift */ = {
+		A05AE11E1F4C26DF00248BAD /* HJDanmakuDemo */ = {
 			isa = PBXGroup;
 			children = (
-				A039EFD41F2F333700259173 /* AppDelegate.swift */,
-				A0E1FA841F2F370900157E27 /* MenuTableViewController.swift */,
-				A0EA17B21F31C4C5002E867D /* VideoDemoViewController.swift */,
-				A0EA17B31F31C4C5002E867D /* VideoDemoViewController.xib */,
-				A0EA17AC1F31C42D002E867D /* LiveDemoViewController.swift */,
-				A0EA17AD1F31C42D002E867D /* LiveDemoViewController.xib */,
-				A03542411F431E2800CE4F7A /* DemoDanmakuCell.swift */,
-				A0EA17B01F31C491002E867D /* danmakufile */,
-				A039EFDB1F2F333700259173 /* Assets.xcassets */,
-				A039EFDD1F2F333700259173 /* LaunchScreen.storyboard */,
-				A039EFE01F2F333700259173 /* Info.plist */,
+				A05AE1281F4C26DF00248BAD /* MenuTableViewController.swift */,
+				A05AE1291F4C26DF00248BAD /* VideoDemoViewController.swift */,
+				A05AE12A1F4C26DF00248BAD /* VideoDemoViewController.xib */,
+				A05AE1261F4C26DF00248BAD /* LiveDemoViewController.swift */,
+				A05AE1271F4C26DF00248BAD /* LiveDemoViewController.xib */,
+				A05AE1241F4C26DF00248BAD /* DemoDanmakuCell.swift */,
+				A05AE11F1F4C26DF00248BAD /* AppDelegate.swift */,
+				A05AE1201F4C26DF00248BAD /* Assets.xcassets */,
+				A05AE1211F4C26DF00248BAD /* LaunchScreen.storyboard */,
+				A05AE1231F4C26DF00248BAD /* danmakufile */,
+				A05AE1251F4C26DF00248BAD /* Info.plist */,
 			);
-			path = "HJDanmaku-Swift";
+			path = HJDanmakuDemo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -169,11 +170,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A0EA17B11F31C491002E867D /* danmakufile in Resources */,
-				A039EFDF1F2F333700259173 /* LaunchScreen.storyboard in Resources */,
-				A0EA17B51F31C4C5002E867D /* VideoDemoViewController.xib in Resources */,
-				A0EA17AF1F31C42D002E867D /* LiveDemoViewController.xib in Resources */,
-				A039EFDC1F2F333700259173 /* Assets.xcassets in Resources */,
+				A05AE1301F4C26DF00248BAD /* Info.plist in Resources */,
+				A05AE12C1F4C26DF00248BAD /* Assets.xcassets in Resources */,
+				A05AE12D1F4C26DF00248BAD /* LaunchScreen.storyboard in Resources */,
+				A05AE12E1F4C26DF00248BAD /* danmakufile in Resources */,
+				A05AE1321F4C26DF00248BAD /* LiveDemoViewController.xib in Resources */,
+				A05AE1351F4C26DF00248BAD /* VideoDemoViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,21 +234,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A039EFD51F2F333700259173 /* AppDelegate.swift in Sources */,
-				A0EA17AE1F31C42D002E867D /* LiveDemoViewController.swift in Sources */,
-				A0E1FA851F2F370900157E27 /* MenuTableViewController.swift in Sources */,
-				A0EA17B41F31C4C5002E867D /* VideoDemoViewController.swift in Sources */,
-				A03542421F431E2800CE4F7A /* DemoDanmakuCell.swift in Sources */,
+				A05AE1331F4C26DF00248BAD /* MenuTableViewController.swift in Sources */,
+				A05AE12F1F4C26DF00248BAD /* DemoDanmakuCell.swift in Sources */,
+				A05AE1311F4C26DF00248BAD /* LiveDemoViewController.swift in Sources */,
+				A05AE12B1F4C26DF00248BAD /* AppDelegate.swift in Sources */,
+				A05AE1341F4C26DF00248BAD /* VideoDemoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		A039EFDD1F2F333700259173 /* LaunchScreen.storyboard */ = {
+		A05AE1211F4C26DF00248BAD /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				A039EFDE1F2F333700259173 /* Base */,
+				A05AE1221F4C26DF00248BAD /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
