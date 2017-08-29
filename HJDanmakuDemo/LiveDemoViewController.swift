@@ -21,6 +21,7 @@ class LiveDemoViewController: UIViewController {
 
         self.view.backgroundColor = UIColor.white
         self.navigationController?.setNavigationBarHidden(true, animated: true)
+
     }
 
     override func didReceiveMemoryWarning() {

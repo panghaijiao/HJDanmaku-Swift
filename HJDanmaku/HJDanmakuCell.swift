@@ -20,7 +20,7 @@ open class HJDanmakuCell: UIView {
     
     public var selectionStyle: HJDanmakuCellSelectionStyle = .HJDanmakuCellSelectionStyleNone
     
-    open lazy var textLabel: UILabel = {
+    public private(set) lazy var textLabel: UILabel = {
         let textLabel = UILabel.init(frame: self.bounds)
         textLabel.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.addSubview(textLabel)

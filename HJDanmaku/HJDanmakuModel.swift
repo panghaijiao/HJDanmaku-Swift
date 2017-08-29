@@ -16,7 +16,9 @@ public enum HJDanmakuType {
 
 open class HJDanmakuModel {
     
-    public var danmakuType: HJDanmakuType = .HJDanmakuTypeLR
+    public var time = 0.0  // unit second, ignore when liveModel
+    
+    let danmakuType: HJDanmakuType
     
     public init(danmakuType: HJDanmakuType) {
         self.danmakuType = danmakuType
