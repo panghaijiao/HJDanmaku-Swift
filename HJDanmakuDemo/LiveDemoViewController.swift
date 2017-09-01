@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import HJDanmaku_Swift
 
 class LiveDemoViewController: UIViewController {
     

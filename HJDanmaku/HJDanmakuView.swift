@@ -49,7 +49,7 @@ public class HJDanmakuSource {
     var danmakuAgents: Array<HJDanmakuAgent> = Array<HJDanmakuAgent>.init()
     
     static func danmakuSource(withModel mode: HJDanmakuMode) -> HJDanmakuSource {
-        return HJDanmakuSource.init()
+        return mode == .HJDanmakuModeLive ? HJDanmakuLiveSource.init(): HJDanmakuVideoSource.init()
     }
     
     public func prepareDanmakus(_ danmakus: Array<HJDanmakuModel>, completion: @escaping () -> Swift.Void) {
@@ -68,6 +68,22 @@ public class HJDanmakuSource {
         assert(false, "subClass implementation");
         return nil
     }
+}
+
+public class HJDanmakuVideoSource: HJDanmakuSource {
+    
+    override public func prepareDanmakus(_ danmakus: Array<HJDanmakuModel>, completion: @escaping () -> Swift.Void) {
+        assert(false, "subClass implementation")
+    }
+    
+}
+
+public class HJDanmakuLiveSource: HJDanmakuSource {
+    
+    override public func prepareDanmakus(_ danmakus: Array<HJDanmakuModel>, completion: @escaping () -> Swift.Void) {
+        assert(false, "subClass implementation")
+    }
+    
 }
 
 //_______________________________________________________________________________________________________________
@@ -131,6 +147,8 @@ extension HJDanmakuViewDateSource {
 
 //_______________________________________________________________________________________________________________
 
+fileprivate let HJFrameInterval: Double = 0.2
+
 open class HJDanmakuView: UIView {
     
     weak open var dataSource: HJDanmakuViewDateSource?
@@ -139,22 +157,64 @@ open class HJDanmakuView: UIView {
     public private(set) var isPrepared = false
     public private(set) var isPlaying = false
     
-    let configuration: HJDanmakuConfiguration
+    public let configuration: HJDanmakuConfiguration
+    
+    let reuseLock: OSSpinLock = OS_SPINLOCK_INIT
+    lazy var renderQueue: DispatchQueue = {
+        return DispatchQueue.init(label: "com.olinone.danmaku.renderQueue")
+    }()
+    
+    var toleranceCount: Int
+    
+    var danmakuSource: HJDanmakuSource
+    lazy var sourceQueue: OperationQueue = {
+        var newSourceQueue = OperationQueue.init()
+        newSourceQueue.name = "com.olinone.danmaku.sourceQueue"
+        newSourceQueue.maxConcurrentOperationCount = 1
+        return newSourceQueue
+    }()
+    
+    var cellClassInfo: Dictionary = Dictionary<String, HJDanmakuCell.Type>.init()
+    var cellReusePool: Dictionary = Dictionary<String, Array<HJDanmakuCell>>.init()
+    
+    var danmakuQueuePool: Array = Array<HJDanmakuAgent>.init()
+    var renderingDanmakus: Array = Array<HJDanmakuAgent>.init()
+    
+    var LRRetainer: Dictionary = Dictionary<NSNumber, HJDanmakuAgent>.init()
+    var FTRetainer: Dictionary = Dictionary<NSNumber, HJDanmakuAgent>.init()
+    var FBRetainer: Dictionary = Dictionary<NSNumber, HJDanmakuAgent>.init()
+    
+    var selectDanmakuAgent: HJDanmakuAgent?
     
     public init(frame: CGRect, configuration: HJDanmakuConfiguration) {
         self.configuration = configuration
+        self.toleranceCount = Int(fabs(self.configuration.tolerance) / HJFrameInterval)
+        self.toleranceCount = max(self.toleranceCount, 1)
+        self.danmakuSource = HJDanmakuSource.danmakuSource(withModel: configuration.danmakuMode)
+        
         super.init(frame: frame)
+        self.clipsToBounds = true
     }
     
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func register(_ cellClass: Swift.AnyClass?, forCellReuseIdentifier identifier: String) {
-        
+    public func register(_ cellClass: HJDanmakuCell.Type, forCellReuseIdentifier identifier: String) {
+        self.cellClassInfo[identifier] = cellClass
     }
 
-    public func dequeueReusableCell(withIdentifier identifier: String) -> HJDanmakuCell {
+    public func dequeueReusableCell(withIdentifier identifier: String) -> HJDanmakuCell? {
+        let cells = self.cellReusePool[identifier]
+        if cells?.count == 0 {
+            let cellClass: HJDanmakuCell.Type? = self.cellClassInfo[identifier]
+            if let cellType = cellClass {
+                let cell = cellType.init(reuseIdentifier: identifier)
+                return cell
+            }
+            return nil
+        }
+        
         let cell: HJDanmakuCell = HJDanmakuCell.init(reuseIdentifier: "cell")
         cell.prepareForReuse()
         

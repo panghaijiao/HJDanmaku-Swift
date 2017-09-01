@@ -29,7 +29,7 @@ open class HJDanmakuCell: UIView {
     
     let reuseIdentifier: String
     
-    public init(reuseIdentifier: String) {
+    public required init(reuseIdentifier: String) {
         self.reuseIdentifier = reuseIdentifier
         super.init(frame: CGRect.zero)
     }
