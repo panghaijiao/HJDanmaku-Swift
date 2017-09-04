@@ -147,7 +147,7 @@ extension HJDanmakuViewDateSource {
 
 //_______________________________________________________________________________________________________________
 
-fileprivate let HJFrameInterval: Double = 0.2
+fileprivate let HJFrameInterval: Float = 0.2
 
 open class HJDanmakuView: UIView {
     
@@ -159,7 +159,7 @@ open class HJDanmakuView: UIView {
     
     public let configuration: HJDanmakuConfiguration
     
-    let reuseLock: OSSpinLock = OS_SPINLOCK_INIT
+    var reuseLock: OSSpinLock = OS_SPINLOCK_INIT
     lazy var renderQueue: DispatchQueue = {
         return DispatchQueue.init(label: "com.olinone.danmaku.renderQueue")
     }()
@@ -188,7 +188,7 @@ open class HJDanmakuView: UIView {
     
     public init(frame: CGRect, configuration: HJDanmakuConfiguration) {
         self.configuration = configuration
-        self.toleranceCount = Int(fabs(self.configuration.tolerance) / HJFrameInterval)
+        self.toleranceCount = Int(fabsf(self.configuration.tolerance) / HJFrameInterval)
         self.toleranceCount = max(self.toleranceCount, 1)
         self.danmakuSource = HJDanmakuSource.danmakuSource(withModel: configuration.danmakuMode)
         
@@ -199,41 +199,6 @@ open class HJDanmakuView: UIView {
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    public func register(_ cellClass: HJDanmakuCell.Type, forCellReuseIdentifier identifier: String) {
-        self.cellClassInfo[identifier] = cellClass
-    }
-
-    public func dequeueReusableCell(withIdentifier identifier: String) -> HJDanmakuCell? {
-        let cells = self.cellReusePool[identifier]
-        if cells?.count == 0 {
-            let cellClass: HJDanmakuCell.Type? = self.cellClassInfo[identifier]
-            if let cellType = cellClass {
-                let cell = cellType.init(reuseIdentifier: identifier)
-                return cell
-            }
-            return nil
-        }
-        
-        let cell: HJDanmakuCell = HJDanmakuCell.init(reuseIdentifier: "cell")
-        cell.prepareForReuse()
-        
-        return HJDanmakuCell.init(reuseIdentifier:"cell")
-    }
-    
-    // returns nil if cell is not visible
-    public func danmakuForVisibleCell(_ danmakuCell: HJDanmakuCell) -> HJDanmakuCell? {
-        return nil
-    }
-    
-    var visibleCells: Array<HJDanmakuCell> {
-        get {
-            let visibleCells: Array<HJDanmakuCell> = Array<HJDanmakuCell>()
-            
-            return visibleCells;
-        }
-    }
-    
     
     // you can prepare with nil when liveModel
     public func prepareDanmakus(_ danmakus: Array<HJDanmakuCell>) {
@@ -261,10 +226,95 @@ open class HJDanmakuView: UIView {
      you should call -sendDanmakus: instead of -sendDanmaku:forceRender: to send the danmakus from a remote servers
      */
     public func sendDanmaku(_ danmaku: HJDanmakuMode, forceRender force: Bool) {
+        self.danmakuSource.sendDanmaku(danmaku, forceRender: force)
+        
+        if force {
+            var time = HJDanmakuTime.init(time: 0, interval: HJFrameInterval)
+            time.time = (self.dataSource?.playTimeWithDanmakuView(self))!
+            self.loadDanmakusFromSource(forTime: time)
+        }
+    }
+    
+    public func sendDanmakus(_ danmakus: Array<HJDanmakuMode>) {
+        self.danmakuSource.sendDanmakus(danmakus)
+    }
+    
+    // returns nil if cell is not visible
+    public func danmakuForVisibleCell(_ danmakuCell: HJDanmakuCell) -> HJDanmakuModel? {
+        let danmakuAgents = self.visibleDanmakuAgents()
+        for danmakuAgent in danmakuAgents {
+            if danmakuAgent.danmakuCell == danmakuCell {
+                return danmakuAgent.danmakuModel
+            }
+        }
+        return nil
+    }
+    
+    public var visibleCells: Array<HJDanmakuCell> {
+        get {
+            var visibleCells = Array<HJDanmakuCell>()
+            renderQueue.sync {
+                for danmakuAgent in self.renderingDanmakus {
+                    let danmakuCell = danmakuAgent.danmakuCell
+                    if let cell = danmakuCell {
+                        visibleCells.append(cell)
+                    }
+                }
+            }
+            return visibleCells;
+        }
+    }
+    
+    func visibleDanmakuAgents() -> Array<HJDanmakuAgent> {
+        var renderingDanmakus: Array<HJDanmakuAgent>!
+        renderQueue.sync {
+            renderingDanmakus = Array.init(self.renderingDanmakus)
+        }
+        return renderingDanmakus;
+    }
+}
+
+extension HJDanmakuView {
+    
+    func loadDanmakusFromSource(forTime time: HJDanmakuTime) {
         
     }
     
-    public func sendDanmakus(_danmakus: Array<HJDanmakuMode>) {
-        
+}
+
+extension HJDanmakuView {
+    
+    public func register(_ cellClass: HJDanmakuCell.Type, forCellReuseIdentifier identifier: String) {
+        self.cellClassInfo[identifier] = cellClass
     }
+    
+    public func dequeueReusableCell(withIdentifier identifier: String) -> HJDanmakuCell? {
+        let cells = self.cellReusePool[identifier]
+        if cells?.count == 0 {
+            let cellClass: HJDanmakuCell.Type? = self.cellClassInfo[identifier]
+            if let cellType = cellClass {
+                let cell = cellType.init(reuseIdentifier: identifier)
+                return cell
+            }
+            return nil
+        }
+        OSSpinLockLock(&reuseLock);
+        let cell: HJDanmakuCell = cells!.last!
+        OSSpinLockUnlock(&reuseLock);
+        cell.zIndex = 0
+        cell.prepareForReuse()
+        return cell
+    }
+    
+    func recycleCellToReusePool(_ danmakuCell: HJDanmakuCell) {
+        let identifier: String = danmakuCell.reuseIdentifier
+        OSSpinLockLock(&reuseLock);
+        var cells = self.cellReusePool[identifier]
+        if cells == nil {
+            cells = Array.init()
+        }
+        cells!.append(danmakuCell)
+        OSSpinLockUnlock(&reuseLock);
+    }
+    
 }
