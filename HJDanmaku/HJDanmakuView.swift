@@ -8,6 +8,20 @@
 
 import UIKit
 
+func onMainThreadAsync(closure: @escaping () -> ()) {
+    if Thread.isMainThread {
+        closure()
+    } else {
+        DispatchQueue.main.async(execute: closure)
+    }
+}
+
+func onGlobalThreadAsync(closure: @escaping () -> ()) {
+    DispatchQueue.global().async {
+        closure()
+    }
+}
+
 public struct HJDanmakuTime {
     
     public var time: Float
@@ -91,7 +105,7 @@ public class HJDanmakuLiveSource: HJDanmakuSource {
 public protocol HJDanmakuViewDelegate : NSObjectProtocol {
     
     // preparate completed. you can start render after callback
-    func prepareCompleted(_ danmakuView: HJDanmakuView)
+    func prepareCompletedWithDanmakuView(_ danmakuView: HJDanmakuView)
     
     // called before render. return NO will ignore danmaku
     func danmakuView(_ danmakuView: HJDanmakuView, shouldRenderDanmaku danmaku: HJDanmakuModel) -> Bool
@@ -174,6 +188,14 @@ open class HJDanmakuView: UIView {
         return newSourceQueue
     }()
     
+    lazy var displayLink: CADisplayLink = {
+        var displayLink = CADisplayLink.init(target: self, selector: #selector(update))
+        displayLink.frameInterval = Int(60.0 * HJFrameInterval)
+        displayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
+        return displayLink
+    }()
+    var playTime: HJDanmakuTime = HJDanmakuTime.init(time: 0, interval: HJFrameInterval)
+    
     var cellClassInfo: Dictionary = Dictionary<String, HJDanmakuCell.Type>.init()
     var cellReusePool: Dictionary = Dictionary<String, Array<HJDanmakuCell>>.init()
     
@@ -201,25 +223,95 @@ open class HJDanmakuView: UIView {
     }
     
     // you can prepare with nil when liveModel
-    public func prepareDanmakus(_ danmakus: Array<HJDanmakuCell>) {
+    public func prepareDanmakus(_ danmakus: Array<HJDanmakuModel>) {
+        self.isPrepared = false
+        self.stop()
         
+        if danmakus.count == 0 {
+            self.isPrepared = true
+            onMainThreadAsync {
+                self.delegate?.prepareCompletedWithDanmakuView(self)
+            }
+            return
+        }
+        
+        self.danmakuSource.prepareDanmakus(danmakus, completion: {
+            self.preloadDanmakusWhenPrepare()
+            self.isPrepared = true
+            onMainThreadAsync {
+                self.delegate?.prepareCompletedWithDanmakuView(self)
+            }
+        })
     }
-    
+
     // be sure to call -prepareDanmakus before -play, when isPrepared is NO, call will be invalid
     public func play() {
+        if self.configuration.duration <= 0 {
+            assert(false, "configuration nil or duration <= 0")
+            return
+        }
         
+        if !self.isPrepared {
+            assert(false, "isPrepared is NO!")
+            return
+        }
+        
+        if self.isPlaying {
+            return
+        }
+        self.isPlaying = true
+        self.resumeDisplayingDanmakus()
+        self.displayLink.isPaused = false;
     }
     
     public func pause() {
-        
+        if !self.isPlaying {
+            return
+        }
+        self.isPlaying = false
+        self.displayLink.isPaused = true
+        self.pauseDisplayingDanmakus()
     }
     
     public func stop() {
-        
+        self.isPlaying = false
+        self.displayLink.invalidate()
+        self.playTime = HJDanmakuTime.init(time: 0, interval: HJFrameInterval)
+        renderQueue.async {
+            self.danmakuQueuePool.removeAll()
+        }
+        self.clearScreen()
     }
     
     public func clearScreen() {
-        
+        self.recycleDanmakuAgents(self.renderingDanmakus)
+        self.renderQueue.async {
+            self.renderingDanmakus.removeAll()
+            self.LRRetainer.removeAll()
+            self.FTRetainer.removeAll()
+            self.FBRetainer.removeAll()
+        }
+    }
+    
+    override open func sizeToFit() {
+        super.sizeToFit()
+        let danmakuAgents = self.visibleDanmakuAgents()
+        onMainThreadAsync {
+            let midX = self.bounds.midX
+            let height = self.bounds.height
+            for danmakuAgent in danmakuAgents {
+                if danmakuAgent.danmakuModel.danmakuType != .HJDanmakuTypeLR {
+                    var centerPoint = danmakuAgent.danmakuCell!.center
+                    centerPoint.x = midX
+                    danmakuAgent.danmakuCell!.center = centerPoint
+                    if danmakuAgent.danmakuModel.danmakuType == .HJDanmakuTypeFB {
+                        var rect: CGRect = danmakuAgent.danmakuCell!.frame
+                        rect.origin.y = height - self.configuration.cellHeight * CGFloat(danmakuAgent.yIdx + 1)
+                        danmakuAgent.danmakuCell!.frame = rect
+                    }
+                }
+            }
+        }
     }
     
     /* send customization. when force, renderer will draw the danmaku immediately and ignore the maximum quantity limit.
@@ -276,7 +368,49 @@ open class HJDanmakuView: UIView {
 
 extension HJDanmakuView {
     
+    func preloadDanmakusWhenPrepare() {
+        
+    }
+    
+    func pauseDisplayingDanmakus() {
+        
+    }
+    
+    func resumeDisplayingDanmakus() {
+        
+    }
+    
+    // MARK: - Render
+    
+    func update() {
+        
+    }
+    
     func loadDanmakusFromSource(forTime time: HJDanmakuTime) {
+        
+    }
+    
+    func renderDanmakus(forTime time: HJDanmakuTime, buffering isBuffering: Bool) {
+        
+    }
+    
+    func renderDisplayingDanmakus(forTime time: HJDanmakuTime) {
+        
+    }
+    
+    func recycleDanmakuAgents(_ danmakuAgents: Array<HJDanmakuAgent>) {
+        
+    }
+    
+    func renderNewDanmakus(forTime time: HJDanmakuTime) {
+        
+    }
+    
+    func renderNewDanmakus(_ danmakuAgent: HJDanmakuAgent, forTime time: HJDanmakuTime) {
+        
+    }
+    
+    func removeExpiredDanmakus(forTime time: HJDanmakuTime) {
         
     }
     

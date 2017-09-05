@@ -25,7 +25,7 @@ open class HJDanmakuConfiguration {
     public var numberOfLines = 0
     
     // height of single line cell, avoid modify after initialization, default 30.0f
-    public var cellHeight: Float = 30.0
+    public var cellHeight: CGFloat = 30.0
     
     // the maximum number of danmakus at the same time, default 0, adapt to the height of screen
     public var maxShowCount = 0
