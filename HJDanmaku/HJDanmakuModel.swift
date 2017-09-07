@@ -16,7 +16,7 @@ public enum HJDanmakuType: String {
 
 open class HJDanmakuModel {
     
-    public var time: Float = 0.0  // unit second, ignore when liveModel
+    public var time: CGFloat = 0.0  // unit second, ignore when liveModel
     
     let danmakuType: HJDanmakuType
     

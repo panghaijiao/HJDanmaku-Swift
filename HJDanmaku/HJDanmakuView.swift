@@ -70,11 +70,11 @@ public class HJDanmakuSource {
         assert(false, "subClass implementation")
     }
     
-    public func sendDanmaku(_ danmaku: HJDanmakuMode, forceRender force: Bool) {
+    public func sendDanmaku(_ danmaku: HJDanmakuModel, forceRender force: Bool) {
         assert(false, "subClass implementation")
     }
     
-    public func sendDanmakus(_ danmakus: Array<HJDanmakuMode>) {
+    public func sendDanmakus(_ danmakus: Array<HJDanmakuModel>) {
         assert(false, "subClass implementation")
     }
     
@@ -95,7 +95,41 @@ public class HJDanmakuVideoSource: HJDanmakuSource {
 public class HJDanmakuLiveSource: HJDanmakuSource {
     
     override public func prepareDanmakus(_ danmakus: Array<HJDanmakuModel>, completion: @escaping () -> Swift.Void) {
-        assert(false, "subClass implementation")
+        
+    }
+    
+    override public func sendDanmaku(_ danmaku: HJDanmakuModel, forceRender force: Bool) {
+        let danmakuAgent = HJDanmakuAgent.init(danmakuModel: danmaku)
+        danmakuAgent.force = force
+        OSSpinLockLock(&self.spinLock);
+        self.danmakuAgents.append(danmakuAgent)
+        OSSpinLockUnlock(&self.spinLock);
+    }
+    
+    override public func sendDanmakus(_ danmakus: Array<HJDanmakuModel>) {
+        onGlobalThreadAsync {
+            let interval = 100
+            var danmakuAgents = Array<HJDanmakuAgent>.init()
+            let lastIndex = danmakus.count - 1
+            for (idx, danmaku) in danmakus.enumerated() {
+                let agent = HJDanmakuAgent.init(danmakuModel: danmaku)
+                danmakuAgents.append(agent)
+                if idx == lastIndex || danmakuAgents.count % interval == 0 {
+                    OSSpinLockLock(&self.spinLock);
+                    self.danmakuAgents.append(contentsOf: danmakuAgents)
+                    OSSpinLockUnlock(&self.spinLock);
+                    danmakuAgents.removeAll()
+                }
+            }
+        }
+    }
+    
+    override public func fetchDanmakuAgents(forTime time: HJDanmakuTime) -> Array<HJDanmakuAgent>? {
+        OSSpinLockLock(&self.spinLock);
+        let danmakuAgents = NSArray.init(array: self.danmakuAgents) as! Array<HJDanmakuAgent>
+        self.danmakuAgents.removeAll()
+        OSSpinLockUnlock(&self.spinLock);
+        return danmakuAgents
     }
     
 }
@@ -318,7 +352,7 @@ open class HJDanmakuView: UIView {
     /* send customization. when force, renderer will draw the danmaku immediately and ignore the maximum quantity limit.
      you should call -sendDanmakus: instead of -sendDanmaku:forceRender: to send the danmakus from a remote servers
      */
-    public func sendDanmaku(_ danmaku: HJDanmakuMode, forceRender force: Bool) {
+    public func sendDanmaku(_ danmaku: HJDanmakuModel, forceRender force: Bool) {
         self.danmakuSource.sendDanmaku(danmaku, forceRender: force)
         
         if force {
@@ -328,7 +362,7 @@ open class HJDanmakuView: UIView {
         }
     }
     
-    public func sendDanmakus(_ danmakus: Array<HJDanmakuMode>) {
+    public func sendDanmakus(_ danmakus: Array<HJDanmakuModel>) {
         self.danmakuSource.sendDanmakus(danmakus)
     }
     
@@ -583,6 +617,7 @@ extension HJDanmakuView {
             let key = NSNumber.init(value: index)
             guard let tempAgent = retainer[key] else {
                 danmakuAgent.yIdx = index
+                retainer[key] = danmakuAgent
                 return self.configuration.cellHeight * CGFloat(index)
             }
             if !self.checkLRIsWillHitWithPreDanmaku(tempAgent, danmaku: danmakuAgent) {
@@ -618,7 +653,29 @@ extension HJDanmakuView {
     
     // FT
     func layoutPyWithFTDanmaku(_ danmakuAgent: HJDanmakuAgent, forTime time: HJDanmakuTime) -> CGFloat {
-        return 0
+        let maxPyIndex = self.configuration.numberOfLines > 0 ? self.configuration.numberOfLines: Int(self.renderBounds.height / 2.0 / self.configuration.cellHeight)
+        var retainer = self.retainerWithType(danmakuAgent.danmakuModel.danmakuType)
+        for index in 0..<maxPyIndex {
+            let key = NSNumber.init(value: index)
+            guard let tempAgent = retainer[key] else {
+                danmakuAgent.yIdx = index
+                retainer[key] = danmakuAgent
+                return self.configuration.cellHeight * CGFloat(index)
+            }
+            if !self.checkFTIsWillHitWithPreDanmaku(tempAgent, danmaku: danmakuAgent) {
+                danmakuAgent.yIdx = index
+                retainer[key] = danmakuAgent
+                return self.configuration.cellHeight * CGFloat(index)
+            }
+        }
+        if danmakuAgent.force {
+            let index = Int(arc4random()) % maxPyIndex
+            danmakuAgent.yIdx = index
+            let key = NSNumber.init(value: index)
+            retainer[key] = danmakuAgent
+            return self.configuration.cellHeight * CGFloat(index)
+        }
+        return -1
     }
     
     func checkFTIsWillHitWithPreDanmaku(_ preDanmakuAgent: HJDanmakuAgent, danmaku: HJDanmakuAgent) -> Bool {
@@ -630,7 +687,29 @@ extension HJDanmakuView {
     
     // FB
     func layoutPyWithFBDanmaku(_ danmakuAgent: HJDanmakuAgent, forTime time: HJDanmakuTime) -> CGFloat {
-        return 0
+        let maxPyIndex = self.configuration.numberOfLines > 0 ? self.configuration.numberOfLines: Int(self.renderBounds.height / 2.0 / self.configuration.cellHeight)
+        var retainer = self.retainerWithType(danmakuAgent.danmakuModel.danmakuType)
+        for index in 0..<maxPyIndex {
+            let key = NSNumber.init(value: index)
+            guard let tempAgent = retainer[key] else {
+                danmakuAgent.yIdx = index
+                retainer[key] = danmakuAgent
+                return self.renderBounds.height - self.configuration.cellHeight * CGFloat(index + 1)
+            }
+            if !self.checkFTIsWillHitWithPreDanmaku(tempAgent, danmaku: danmakuAgent) {
+                danmakuAgent.yIdx = index
+                retainer[key] = danmakuAgent
+                return self.renderBounds.height - self.configuration.cellHeight * CGFloat(index + 1)
+            }
+        }
+        if danmakuAgent.force {
+            let index = Int(arc4random()) % maxPyIndex
+            danmakuAgent.yIdx = index
+            let key = NSNumber.init(value: index)
+            retainer[key] = danmakuAgent
+            return self.renderBounds.height - self.configuration.cellHeight * CGFloat(index + 1)
+        }
+        return -1
     }
     
     func checkFBIsWillHitWithPreDanmaku(_ preDanmakuAgent: HJDanmakuAgent, danmaku: HJDanmakuAgent) -> Bool {
