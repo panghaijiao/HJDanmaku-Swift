@@ -8,10 +8,10 @@
 
 import UIKit
 
-public enum HJDanmakuType {
-    case HJDanmakuTypeLR
-    case HJDanmakuTypeFT
-    case HJDanmakuTypeFB
+public enum HJDanmakuType: String {
+    case HJDanmakuTypeLR = "0"
+    case HJDanmakuTypeFT = "1"
+    case HJDanmakuTypeFB = "2"
 }
 
 open class HJDanmakuModel {

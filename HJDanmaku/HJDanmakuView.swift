@@ -33,7 +33,7 @@ public struct HJDanmakuTime {
     
 }
 
-public struct HJDanmakuAgent {
+public class HJDanmakuAgent {
     
     let danmakuModel: HJDanmakuModel
     var danmakuCell: HJDanmakuCell?
@@ -43,8 +43,8 @@ public struct HJDanmakuAgent {
     var toleranceCount = 4
     var remainingTime: Float = 5.0
     
-    var px: Float = 0
-    var py: Float = 0
+    var px: CGFloat = 0
+    var py: CGFloat = 0
     var size: CGSize = CGSize.zero
     
     var yIdx: Int = -1 // the line of trajectory, default -1
@@ -78,7 +78,7 @@ public class HJDanmakuSource {
         assert(false, "subClass implementation")
     }
     
-    public func fetchDanmakuAgents(forTime time: HJDanmakuTime) -> Array<HJDanmakuMode>? {
+    public func fetchDanmakuAgents(forTime time: HJDanmakuTime) -> Array<HJDanmakuAgent>? {
         assert(false, "subClass implementation");
         return nil
     }
@@ -179,6 +179,7 @@ open class HJDanmakuView: UIView {
     }()
     
     var toleranceCount: Int
+    var renderBounds = CGRect.zero
     
     var danmakuSource: HJDanmakuSource
     lazy var sourceQueue: OperationQueue = {
@@ -188,12 +189,7 @@ open class HJDanmakuView: UIView {
         return newSourceQueue
     }()
     
-    lazy var displayLink: CADisplayLink = {
-        var displayLink = CADisplayLink.init(target: self, selector: #selector(update))
-        displayLink.frameInterval = Int(60.0 * HJFrameInterval)
-        displayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
-        return displayLink
-    }()
+    var displayLink: CADisplayLink?
     var playTime: HJDanmakuTime = HJDanmakuTime.init(time: 0, interval: HJFrameInterval)
     
     var cellClassInfo: Dictionary = Dictionary<String, HJDanmakuCell.Type>.init()
@@ -227,7 +223,7 @@ open class HJDanmakuView: UIView {
         self.isPrepared = false
         self.stop()
         
-        if danmakus.count == 0 {
+        guard danmakus.count > 0 else {
             self.isPrepared = true
             onMainThreadAsync {
                 self.delegate?.prepareCompletedWithDanmakuView(self)
@@ -246,12 +242,11 @@ open class HJDanmakuView: UIView {
 
     // be sure to call -prepareDanmakus before -play, when isPrepared is NO, call will be invalid
     public func play() {
-        if self.configuration.duration <= 0 {
+        guard self.configuration.duration > 0 else {
             assert(false, "configuration nil or duration <= 0")
             return
         }
-        
-        if !self.isPrepared {
+        guard self.isPrepared else {
             assert(false, "isPrepared is NO!")
             return
         }
@@ -261,7 +256,12 @@ open class HJDanmakuView: UIView {
         }
         self.isPlaying = true
         self.resumeDisplayingDanmakus()
-        self.displayLink.isPaused = false;
+        if self.displayLink == nil {
+            self.displayLink = CADisplayLink.init(target: self, selector: #selector(update))
+            self.displayLink!.frameInterval = Int(60.0 * HJFrameInterval)
+            self.displayLink!.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
+        }
+        self.displayLink?.isPaused = false;
     }
     
     public func pause() {
@@ -269,13 +269,14 @@ open class HJDanmakuView: UIView {
             return
         }
         self.isPlaying = false
-        self.displayLink.isPaused = true
+        self.displayLink?.isPaused = true
         self.pauseDisplayingDanmakus()
     }
     
     public func stop() {
         self.isPlaying = false
-        self.displayLink.invalidate()
+        self.displayLink?.invalidate()
+        self.displayLink = nil
         self.playTime = HJDanmakuTime.init(time: 0, interval: HJFrameInterval)
         renderQueue.async {
             self.danmakuQueuePool.removeAll()
@@ -369,49 +370,192 @@ open class HJDanmakuView: UIView {
 extension HJDanmakuView {
     
     func preloadDanmakusWhenPrepare() {
-        
+        let operation = BlockOperation.init { 
+            let danmakuAgents: Array<HJDanmakuAgent> = self.danmakuSource.fetchDanmakuAgents(forTime: self.playTime)!
+            for danmakuAgent in danmakuAgents {
+                danmakuAgent.remainingTime = self.configuration.duration
+                danmakuAgent.toleranceCount = self.toleranceCount
+            }
+            self.renderQueue.async {
+                self.danmakuQueuePool.append(contentsOf: danmakuAgents)
+            }
+        }
+        self.sourceQueue.cancelAllOperations()
+        self.sourceQueue.addOperation(operation)
     }
     
     func pauseDisplayingDanmakus() {
-        
+        let danmakuAgents = self.visibleDanmakuAgents()
+        onMainThreadAsync {
+            for danmakuAgent in danmakuAgents {
+                if danmakuAgent.danmakuModel.danmakuType == .HJDanmakuTypeLR {
+                    let layer: CALayer = danmakuAgent.danmakuCell!.layer
+                    danmakuAgent.danmakuCell!.frame = layer.presentation()!.frame
+                    danmakuAgent.danmakuCell!.layer.removeAllAnimations()
+                }
+            }
+        }
     }
     
     func resumeDisplayingDanmakus() {
-        
+        let danmakuAgents = self.visibleDanmakuAgents()
+        onMainThreadAsync {
+            for danmakuAgent in danmakuAgents {
+                if danmakuAgent.danmakuModel.danmakuType == .HJDanmakuTypeLR {
+                    UIView.animate(withDuration: TimeInterval(danmakuAgent.remainingTime), delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
+                        danmakuAgent.danmakuCell!.frame = CGRect.init(origin: CGPoint.init(x: -danmakuAgent.size.width, y: CGFloat(danmakuAgent.py)), size: danmakuAgent.size)
+                    }, completion: nil)
+                }
+            }
+        }
     }
     
     // MARK: - Render
     
     func update() {
-        
+        var time = HJDanmakuTime.init(time: 0, interval: HJFrameInterval)
+        time.time = (self.dataSource?.playTimeWithDanmakuView(self))!
+        if self.configuration.danmakuMode == .HJDanmakuModeVideo && time.time <= 0 {
+            return;
+        }
+        let isBuffering = (self.dataSource?.bufferingWithDanmakuView(self))!
+        if !isBuffering {
+            self.loadDanmakusFromSource(forTime: time)
+        }
+        self.renderDanmakus(forTime: time, buffering: isBuffering)
     }
     
     func loadDanmakusFromSource(forTime time: HJDanmakuTime) {
-        
+        let operation = BlockOperation.init { 
+            let fetchDanmakuAgents = self.danmakuSource.fetchDanmakuAgents(forTime: HJDanmakuTime.init(time: time.MaxTime(), interval: time.interval))
+            guard var danmakuAgents = fetchDanmakuAgents else {
+                return;
+            }
+            danmakuAgents = danmakuAgents.filter({ (danmakuAgent) -> Bool in
+                return danmakuAgent.remainingTime > 0
+            })
+            for danmakuAgent in danmakuAgents {
+                danmakuAgent.remainingTime = self.configuration.duration
+                danmakuAgent.toleranceCount = self.toleranceCount
+            }
+            self.renderQueue.async {
+                if time.time < self.playTime.time || time.time > self.playTime.MaxTime() + self.configuration.tolerance {
+                    self.danmakuQueuePool.removeAll()
+                }
+                if danmakuAgents.count > 0 {
+                    self.danmakuQueuePool.insert(contentsOf: danmakuAgents, at: 0)
+                }
+                self.playTime = time
+            }
+        }
+        self.sourceQueue.cancelAllOperations()
+        self.sourceQueue.addOperation(operation)
     }
     
     func renderDanmakus(forTime time: HJDanmakuTime, buffering isBuffering: Bool) {
-        
+        self.renderBounds = self.bounds
+        self.renderQueue.async {
+            self.renderDisplayingDanmakus(forTime: time)
+            if !isBuffering {
+                self.renderNewDanmakus(forTime: time)
+                self.removeExpiredDanmakus(forTime: time)
+            }
+        }
     }
     
     func renderDisplayingDanmakus(forTime time: HJDanmakuTime) {
-        
+        var disappearDanmakuAgens: Array<HJDanmakuAgent> = Array.init()
+        for (idx, danmakuAgent) in self.renderingDanmakus.enumerated().reversed() {
+            danmakuAgent.remainingTime -= time.interval
+            if danmakuAgent.remainingTime <= 0 {
+                disappearDanmakuAgens.append(danmakuAgent)
+                self.renderingDanmakus.remove(at: idx)
+            }
+        }
+        self.recycleDanmakuAgents(disappearDanmakuAgens)
     }
     
     func recycleDanmakuAgents(_ danmakuAgents: Array<HJDanmakuAgent>) {
-        
+        if danmakuAgents.count == 0 {
+            return
+        }
+        onMainThreadAsync {
+            for danmakuAgent in danmakuAgents {
+                danmakuAgent.danmakuCell?.layer.removeAllAnimations()
+                danmakuAgent.danmakuCell?.removeFromSuperview()
+                danmakuAgent.yIdx = -1
+                danmakuAgent.remainingTime = 0
+                self.recycleCellToReusePool(danmakuAgent.danmakuCell!)
+                self.delegate?.danmakuView(self, didEndDisplayCell: danmakuAgent.danmakuCell!, danmaku: danmakuAgent.danmakuModel)
+            }
+        }
     }
     
     func renderNewDanmakus(forTime time: HJDanmakuTime) {
-        
+        let maxShowCount = self.configuration.maxShowCount > 0 ? self.configuration.maxShowCount: Int.max
+        var renderResult = Dictionary<String, Bool>.init()
+        for danmakuAgent in self.danmakuQueuePool {
+            let retainKey = danmakuAgent.danmakuModel.danmakuType.rawValue
+            if !danmakuAgent.force {
+                if self.renderingDanmakus.count > maxShowCount {
+                    break
+                }
+                if renderResult.keys.contains(HJDanmakuType.HJDanmakuTypeLR.rawValue) &&
+                    renderResult.keys.contains(HJDanmakuType.HJDanmakuTypeFT.rawValue) &&
+                    renderResult.keys.contains(HJDanmakuType.HJDanmakuTypeFB.rawValue) {
+                    break
+                }
+                if renderResult.keys.contains(retainKey) {
+                    continue
+                }
+                guard (self.delegate?.danmakuView(self, shouldRenderDanmaku: danmakuAgent.danmakuModel))! else {
+                    continue
+                }
+                if !self.renderNewDanmaku(danmakuAgent, forTime: time) {
+                    renderResult[retainKey] = true
+                }
+            }
+        }
     }
     
-    func renderNewDanmakus(_ danmakuAgent: HJDanmakuAgent, forTime time: HJDanmakuTime) {
-        
+    func renderNewDanmaku(_ danmakuAgent: HJDanmakuAgent, forTime time: HJDanmakuTime) -> Bool {
+        if !self.layoutNewDanmaku(danmakuAgent, forTime: time) {
+            return false
+        }
+        self.renderingDanmakus.append(danmakuAgent)
+        danmakuAgent.toleranceCount = 0
+        onMainThreadAsync {
+            danmakuAgent.danmakuCell = {
+                let cell = (self.dataSource?.danmakuView(self, cellForDanmaku: danmakuAgent.danmakuModel))!
+                cell.frame = CGRect.init(origin: CGPoint.init(x: danmakuAgent.px, y: danmakuAgent.py), size: danmakuAgent.size)
+                cell.zIndex = 0
+                return cell
+            }()
+            self.delegate?.danmakuView(self, willDisplayCell: danmakuAgent.danmakuCell!, danmaku: danmakuAgent.danmakuModel)
+            self.insertSubview(danmakuAgent.danmakuCell!, at: danmakuAgent.danmakuCell!.zIndex)
+            if danmakuAgent.danmakuModel.danmakuType == .HJDanmakuTypeLR {
+                UIView.animate(withDuration: TimeInterval(danmakuAgent.remainingTime), delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
+                    danmakuAgent.danmakuCell!.frame = CGRect.init(origin: CGPoint.init(x: -danmakuAgent.size.width, y: CGFloat(danmakuAgent.py)), size: danmakuAgent.size)
+                }, completion: nil)
+            }
+            
+        }
+        return true
     }
     
     func removeExpiredDanmakus(forTime time: HJDanmakuTime) {
-        
+        for (idx, danmakuAgent) in self.danmakuQueuePool.enumerated().reversed() {
+            danmakuAgent.toleranceCount -= 1
+            if danmakuAgent.toleranceCount <= 0 {
+                self.danmakuQueuePool.remove(at: idx)
+            }
+        }
+    }
+    
+    // MARK: - Retainer
+    
+    func layoutNewDanmaku(_ danmakuAgent: HJDanmakuAgent, forTime time: HJDanmakuTime) -> Bool {
+        return true
     }
     
 }
@@ -426,11 +570,11 @@ extension HJDanmakuView {
         let cells = self.cellReusePool[identifier]
         if cells?.count == 0 {
             let cellClass: HJDanmakuCell.Type? = self.cellClassInfo[identifier]
-            if let cellType = cellClass {
-                let cell = cellType.init(reuseIdentifier: identifier)
-                return cell
+            guard let cellType = cellClass else {
+                return nil
             }
-            return nil
+            let cell = cellType.init(reuseIdentifier: identifier)
+            return cell
         }
         OSSpinLockLock(&reuseLock);
         let cell: HJDanmakuCell = cells!.last!
