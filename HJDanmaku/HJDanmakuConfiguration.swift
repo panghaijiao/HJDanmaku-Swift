@@ -16,10 +16,10 @@ public enum HJDanmakuMode {
 open class HJDanmakuConfiguration {
     
     // unit second, greater than zero, default 5.0s
-    public var duration: Float = 5.0
+    public var duration: CGFloat = 5.0
     
     // setting a tolerance for a danmaku render later than the time, unit second, default 2.0s
-    public var tolerance: Float = 2.0
+    public var tolerance: CGFloat = 2.0
     
     // default 0, full screen
     public var numberOfLines = 0
