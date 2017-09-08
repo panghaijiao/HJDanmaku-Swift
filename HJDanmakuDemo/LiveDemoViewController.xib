@@ -9,8 +9,11 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LiveDemoViewController" customModule="HJDanmaku_Swift" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LiveDemoViewController" customModule="HJDanmakuDemo" customModuleProvider="target">
             <connections>
+                <outlet property="alphaSlider" destination="bZd-3d-Hyy" id="aH0-fb-5Wj"/>
+                <outlet property="imageView" destination="uhi-yq-wjY" id="Adi-Qy-efG"/>
+                <outlet property="panelView" destination="hgT-AM-rwL" id="aVK-N2-yMh"/>
                 <outlet property="view" destination="Vdx-vr-nJu" id="7JG-4a-mmY"/>
             </connections>
         </placeholder>
@@ -31,31 +34,49 @@
                             <rect key="frame" x="17" y="7" width="46" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <state key="normal" title="Play"/>
+                            <connections>
+                                <action selector="onPlayBtnClickWithButton:" destination="-1" eventType="touchUpInside" id="M60-hz-yOS"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xf3-WJ-jgD">
                             <rect key="frame" x="84" y="7" width="56" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <state key="normal" title="Pause"/>
+                            <connections>
+                                <action selector="onPauseBtnClickWithSender:" destination="-1" eventType="touchUpInside" id="U3t-Do-6mj"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PXi-dd-X8m">
                             <rect key="frame" x="600" y="7" width="46" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                             <state key="normal" title="Send"/>
+                            <connections>
+                                <action selector="onSendClickWithSender:" destination="-1" eventType="touchUpInside" id="CZD-Ta-Y02"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6xl-KF-GVW">
                             <rect key="frame" x="533" y="7" width="46" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                             <state key="normal" title="Set"/>
+                            <connections>
+                                <action selector="onSetBtnClickWithSender:" destination="-1" eventType="touchUpInside" id="Z55-my-Scs"/>
+                            </connections>
                         </button>
                         <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="bZd-3d-Hyy">
                             <rect key="frame" x="262" y="8" width="194" height="31"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="thumbTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="onAlphaChangeWithSender:" destination="-1" eventType="valueChanged" id="WhD-aM-Hs7"/>
+                            </connections>
                         </slider>
                         <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="wxV-Qa-awx">
                             <rect key="frame" x="262" y="44" width="194" height="31"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="thumbTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="onCountChangeWithSender:" destination="-1" eventType="valueChanged" id="PsA-Xj-eZ5"/>
+                            </connections>
                         </slider>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Alpha " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NoR-j0-E1u">
                             <rect key="frame" x="192" y="13" width="70" height="21"/>

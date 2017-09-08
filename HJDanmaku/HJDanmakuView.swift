@@ -87,7 +87,7 @@ public class HJDanmakuSource {
 public class HJDanmakuVideoSource: HJDanmakuSource {
     
     override public func prepareDanmakus(_ danmakus: Array<HJDanmakuModel>, completion: @escaping () -> Swift.Void) {
-        assert(false, "subClass implementation")
+        
     }
     
 }
@@ -95,7 +95,17 @@ public class HJDanmakuVideoSource: HJDanmakuSource {
 public class HJDanmakuLiveSource: HJDanmakuSource {
     
     override public func prepareDanmakus(_ danmakus: Array<HJDanmakuModel>, completion: @escaping () -> Swift.Void) {
-        
+        onGlobalThreadAsync {
+            var danmakuAgents = Array<HJDanmakuAgent>.init()
+            for danmaku in danmakus {
+                let agent = HJDanmakuAgent.init(danmakuModel: danmaku)
+                danmakuAgents.append(agent)
+                OSSpinLockLock(&self.spinLock);
+                self.danmakuAgents = danmakuAgents
+                OSSpinLockUnlock(&self.spinLock);
+                completion()
+            }
+        }
     }
     
     override public func sendDanmaku(_ danmaku: HJDanmakuModel, forceRender force: Bool) {
@@ -149,21 +159,21 @@ public protocol HJDanmakuViewDelegate : NSObjectProtocol {
     func danmakuView(_ danmakuView: HJDanmakuView, didEndDisplayCell cell: HJDanmakuCell, danmaku: HJDanmakuModel)
     
     // selection customization
-    func danmakuView(_ danmakuView: HJDanmakuView, shouldSelectCell cell: HJDanmakuCell, danmaku: HJDanmakuModel)
+    func danmakuView(_ danmakuView: HJDanmakuView, shouldSelectCell cell: HJDanmakuCell, danmaku: HJDanmakuModel) -> Bool
     func danmakuView(_ danmakuView: HJDanmakuView, didSelectCell cell: HJDanmakuCell, danmaku: HJDanmakuModel)
     
 }
 
 extension HJDanmakuViewDelegate {
     
-    func prepareCompleted(_ danmakuView: HJDanmakuView) {}
-    func danmakuView(_ danmakuView: HJDanmakuView, shouldRenderDanmaku danmaku: HJDanmakuModel) -> Bool {return true}
+    public func prepareCompleted(_ danmakuView: HJDanmakuView) {}
+    public func danmakuView(_ danmakuView: HJDanmakuView, shouldRenderDanmaku danmaku: HJDanmakuModel) -> Bool {return true}
     
-    func danmakuView(_ danmakuView: HJDanmakuView, willDisplayCell cell: HJDanmakuCell, danmaku: HJDanmakuModel) {}
-    func danmakuView(_ danmakuView: HJDanmakuView, didEndDisplayCell cell: HJDanmakuCell, danmaku: HJDanmakuModel) {}
+    public func danmakuView(_ danmakuView: HJDanmakuView, willDisplayCell cell: HJDanmakuCell, danmaku: HJDanmakuModel) {}
+    public func danmakuView(_ danmakuView: HJDanmakuView, didEndDisplayCell cell: HJDanmakuCell, danmaku: HJDanmakuModel) {}
     
-    func danmakuView(_ danmakuView: HJDanmakuView, shouldSelectCell cell: HJDanmakuCell, danmaku: HJDanmakuModel) {}
-    func danmakuView(_ danmakuView: HJDanmakuView, didSelectCell cell: HJDanmakuCell, danmaku: HJDanmakuModel) {}
+    public func danmakuView(_ danmakuView: HJDanmakuView, shouldSelectCell cell: HJDanmakuCell, danmaku: HJDanmakuModel) -> Bool {return false}
+    public func danmakuView(_ danmakuView: HJDanmakuView, didSelectCell cell: HJDanmakuCell, danmaku: HJDanmakuModel) {}
 
 }
 
@@ -187,9 +197,9 @@ public protocol HJDanmakuViewDateSource : NSObjectProtocol {
 
 extension HJDanmakuViewDateSource {
     
-    func playTimeWithDanmakuView(_ danmakuView: HJDanmakuView) -> CGFloat {return 0}
+    public func playTimeWithDanmakuView(_ danmakuView: HJDanmakuView) -> CGFloat {return 0}
     
-    func bufferingWithDanmakuView(_ danmakuView: HJDanmakuView) -> Bool {return false}
+    public func bufferingWithDanmakuView(_ danmakuView: HJDanmakuView) -> Bool {return false}
     
 }
 
@@ -253,11 +263,11 @@ open class HJDanmakuView: UIView {
     }
     
     // you can prepare with nil when liveModel
-    public func prepareDanmakus(_ danmakus: Array<HJDanmakuModel>) {
+    public func prepareDanmakus(_ danmakus: Array<HJDanmakuModel>?) {
         self.isPrepared = false
         self.stop()
         
-        guard danmakus.count > 0 else {
+        guard let danmakus = danmakus else {
             self.isPrepared = true
             onMainThreadAsync {
                 self.delegate?.prepareCompletedWithDanmakuView(self)
@@ -542,12 +552,12 @@ extension HJDanmakuView {
                 if renderResult.keys.contains(retainKey) {
                     continue
                 }
-                guard (self.delegate?.danmakuView(self, shouldRenderDanmaku: danmakuAgent.danmakuModel))! else {
-                    continue
-                }
-                if !self.renderNewDanmaku(danmakuAgent, forTime: time) {
-                    renderResult[retainKey] = true
-                }
+            }
+            guard (self.delegate?.danmakuView(self, shouldRenderDanmaku: danmakuAgent.danmakuModel))! else {
+                continue
+            }
+            if !self.renderNewDanmaku(danmakuAgent, forTime: time) {
+                renderResult[retainKey] = true
             }
         }
     }
@@ -604,25 +614,26 @@ extension HJDanmakuView {
         switch danmakuAgent.danmakuModel.danmakuType {
         case .HJDanmakuTypeLR:
             return self.layoutPyWithLRDanmaku(danmakuAgent, forTime: time)
-        default:
-            return 0
+        case .HJDanmakuTypeFT:
+            return self.layoutPyWithFTDanmaku(danmakuAgent, forTime: time)
+        case .HJDanmakuTypeFB:
+            return self.layoutPyWithFBDanmaku(danmakuAgent, forTime: time)
         }
     }
     
     // LR
     func layoutPyWithLRDanmaku(_ danmakuAgent: HJDanmakuAgent, forTime time: HJDanmakuTime) -> CGFloat {
         let maxPyIndex = self.configuration.numberOfLines > 0 ? self.configuration.numberOfLines: Int(self.renderBounds.height / self.configuration.cellHeight)
-        var retainer = self.retainerWithType(danmakuAgent.danmakuModel.danmakuType)
         for index in 0..<maxPyIndex {
             let key = NSNumber.init(value: index)
-            guard let tempAgent = retainer[key] else {
+            guard let tempAgent = self.LRRetainer[key] else {
                 danmakuAgent.yIdx = index
-                retainer[key] = danmakuAgent
+                self.LRRetainer[key] = danmakuAgent
                 return self.configuration.cellHeight * CGFloat(index)
             }
             if !self.checkLRIsWillHitWithPreDanmaku(tempAgent, danmaku: danmakuAgent) {
                 danmakuAgent.yIdx = index
-                retainer[key] = danmakuAgent
+                self.LRRetainer[key] = danmakuAgent
                 return self.configuration.cellHeight * CGFloat(index)
             }
         }
@@ -630,13 +641,13 @@ extension HJDanmakuView {
             let index = Int(arc4random()) % maxPyIndex
             danmakuAgent.yIdx = index
             let key = NSNumber.init(value: index)
-            retainer[key] = danmakuAgent
+            self.LRRetainer[key] = danmakuAgent
             return self.configuration.cellHeight * CGFloat(index)
         }
         return -1
     }
     
-    func checkLRIsWillHitWithPreDanmaku(_ preDanmakuAgent: HJDanmakuAgent, danmaku: HJDanmakuAgent) -> Bool {
+    func checkLRIsWillHitWithPreDanmaku(_ preDanmakuAgent: HJDanmakuAgent, danmaku danmakuAgent: HJDanmakuAgent) -> Bool {
         guard preDanmakuAgent.remainingTime > 0 else {
             return false
         }
@@ -644,27 +655,26 @@ extension HJDanmakuView {
         if preDanmakuSpeed * (self.configuration.duration  - preDanmakuAgent.remainingTime) < preDanmakuAgent.size.width {
             return true
         }
-        let curDanmakuSpeed = (self.renderBounds.width + preDanmakuAgent.size.width) / self.configuration.duration
+        let curDanmakuSpeed = (self.renderBounds.width + danmakuAgent.size.width) / self.configuration.duration
         if curDanmakuSpeed * preDanmakuAgent.remainingTime > self.renderBounds.width {
             return true
         }
-        return true
+        return false
     }
     
     // FT
     func layoutPyWithFTDanmaku(_ danmakuAgent: HJDanmakuAgent, forTime time: HJDanmakuTime) -> CGFloat {
         let maxPyIndex = self.configuration.numberOfLines > 0 ? self.configuration.numberOfLines: Int(self.renderBounds.height / 2.0 / self.configuration.cellHeight)
-        var retainer = self.retainerWithType(danmakuAgent.danmakuModel.danmakuType)
         for index in 0..<maxPyIndex {
             let key = NSNumber.init(value: index)
-            guard let tempAgent = retainer[key] else {
+            guard let tempAgent = self.FTRetainer[key] else {
                 danmakuAgent.yIdx = index
-                retainer[key] = danmakuAgent
+                self.FTRetainer[key] = danmakuAgent
                 return self.configuration.cellHeight * CGFloat(index)
             }
             if !self.checkFTIsWillHitWithPreDanmaku(tempAgent, danmaku: danmakuAgent) {
                 danmakuAgent.yIdx = index
-                retainer[key] = danmakuAgent
+                self.FTRetainer[key] = danmakuAgent
                 return self.configuration.cellHeight * CGFloat(index)
             }
         }
@@ -672,13 +682,13 @@ extension HJDanmakuView {
             let index = Int(arc4random()) % maxPyIndex
             danmakuAgent.yIdx = index
             let key = NSNumber.init(value: index)
-            retainer[key] = danmakuAgent
+            self.FTRetainer[key] = danmakuAgent
             return self.configuration.cellHeight * CGFloat(index)
         }
         return -1
     }
     
-    func checkFTIsWillHitWithPreDanmaku(_ preDanmakuAgent: HJDanmakuAgent, danmaku: HJDanmakuAgent) -> Bool {
+    func checkFTIsWillHitWithPreDanmaku(_ preDanmakuAgent: HJDanmakuAgent, danmaku danmakuAgent: HJDanmakuAgent) -> Bool {
         if preDanmakuAgent.remainingTime <= 0 {
             return false
         }
@@ -688,17 +698,16 @@ extension HJDanmakuView {
     // FB
     func layoutPyWithFBDanmaku(_ danmakuAgent: HJDanmakuAgent, forTime time: HJDanmakuTime) -> CGFloat {
         let maxPyIndex = self.configuration.numberOfLines > 0 ? self.configuration.numberOfLines: Int(self.renderBounds.height / 2.0 / self.configuration.cellHeight)
-        var retainer = self.retainerWithType(danmakuAgent.danmakuModel.danmakuType)
         for index in 0..<maxPyIndex {
             let key = NSNumber.init(value: index)
-            guard let tempAgent = retainer[key] else {
+            guard let tempAgent = self.FBRetainer[key] else {
                 danmakuAgent.yIdx = index
-                retainer[key] = danmakuAgent
+                self.FBRetainer[key] = danmakuAgent
                 return self.renderBounds.height - self.configuration.cellHeight * CGFloat(index + 1)
             }
             if !self.checkFTIsWillHitWithPreDanmaku(tempAgent, danmaku: danmakuAgent) {
                 danmakuAgent.yIdx = index
-                retainer[key] = danmakuAgent
+                self.FBRetainer[key] = danmakuAgent
                 return self.renderBounds.height - self.configuration.cellHeight * CGFloat(index + 1)
             }
         }
@@ -706,25 +715,17 @@ extension HJDanmakuView {
             let index = Int(arc4random()) % maxPyIndex
             danmakuAgent.yIdx = index
             let key = NSNumber.init(value: index)
-            retainer[key] = danmakuAgent
+            self.FBRetainer[key] = danmakuAgent
             return self.renderBounds.height - self.configuration.cellHeight * CGFloat(index + 1)
         }
         return -1
     }
     
-    func checkFBIsWillHitWithPreDanmaku(_ preDanmakuAgent: HJDanmakuAgent, danmaku: HJDanmakuAgent) -> Bool {
+    func checkFBIsWillHitWithPreDanmaku(_ preDanmakuAgent: HJDanmakuAgent, danmaku danmakuAgent: HJDanmakuAgent) -> Bool {
         if preDanmakuAgent.remainingTime <= 0 {
             return false
         }
         return true
-    }
-    
-    func retainerWithType(_ danmakuType: HJDanmakuType) -> Dictionary<NSNumber, HJDanmakuAgent> {
-        switch danmakuType {
-        case .HJDanmakuTypeLR: return self.LRRetainer
-        case .HJDanmakuTypeFT: return self.FTRetainer
-        case .HJDanmakuTypeFB: return self.FBRetainer
-        }
     }
     
 }
@@ -737,7 +738,7 @@ extension HJDanmakuView {
     
     public func dequeueReusableCell(withIdentifier identifier: String) -> HJDanmakuCell? {
         let cells = self.cellReusePool[identifier]
-        if cells?.count == 0 {
+        if cells == nil || cells!.count == 0 {
             let cellClass: HJDanmakuCell.Type? = self.cellClassInfo[identifier]
             guard let cellType = cellClass else {
                 return nil

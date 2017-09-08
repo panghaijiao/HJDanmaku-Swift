@@ -11,4 +11,9 @@ import HJDanmaku_Swift
 
 class DemoDanmakuModel: HJDanmakuModel {
 
+    var selfFlag: Bool = false
+    var text: String!
+    var textColor: UIColor!
+    var textFont: UIFont!
+    
 }

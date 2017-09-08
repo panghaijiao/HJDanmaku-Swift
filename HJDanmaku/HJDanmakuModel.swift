@@ -18,7 +18,7 @@ open class HJDanmakuModel {
     
     public var time: CGFloat = 0.0  // unit second, ignore when liveModel
     
-    let danmakuType: HJDanmakuType
+    public let danmakuType: HJDanmakuType
     
     public init(danmakuType: HJDanmakuType) {
         self.danmakuType = danmakuType
