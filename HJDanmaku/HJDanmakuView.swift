@@ -293,13 +293,15 @@ extension HJDanmakuView {
     
     func preloadDanmakusWhenPrepare() {
         let operation = BlockOperation.init { 
-            let danmakuAgents: Array<HJDanmakuAgent> = self.danmakuSource.fetchDanmakuAgents(forTime: self.playTime)!
-            for danmakuAgent in danmakuAgents {
-                danmakuAgent.remainingTime = self.configuration.duration
-                danmakuAgent.toleranceCount = self.toleranceCount
-            }
-            self.renderQueue.async {
-                self.danmakuQueuePool.append(contentsOf: danmakuAgents)
+            let fetchAgents: Array<HJDanmakuAgent>? = self.danmakuSource.fetchDanmakuAgents(forTime: self.playTime)
+            if let danmakuAgents = fetchAgents {
+                for danmakuAgent in danmakuAgents {
+                    danmakuAgent.remainingTime = self.configuration.duration
+                    danmakuAgent.toleranceCount = self.toleranceCount
+                }
+                self.renderQueue.async {
+                    self.danmakuQueuePool.append(contentsOf: danmakuAgents)
+                }
             }
         }
         self.sourceQueue.cancelAllOperations()
@@ -354,7 +356,7 @@ extension HJDanmakuView {
                 return;
             }
             danmakuAgents = danmakuAgents.filter({ (danmakuAgent) -> Bool in
-                return danmakuAgent.remainingTime > 0
+                return danmakuAgent.remainingTime <= 0
             })
             for danmakuAgent in danmakuAgents {
                 danmakuAgent.remainingTime = self.configuration.duration

@@ -27,7 +27,7 @@ public class HJDanmakuAgent {
     var force: Bool = false
     
     var toleranceCount = 4
-    var remainingTime: CGFloat = 5.0
+    var remainingTime: CGFloat = 0
     
     var px: CGFloat = 0
     var py: CGFloat = 0
@@ -82,7 +82,7 @@ public class HJDanmakuVideoSource: HJDanmakuSource {
                 danmakuAgents.append(agent)
             }
             danmakuAgents.sort(by: { (danmakuAgent0, danmakuAgent1) -> Bool in
-                return danmakuAgent0.danmakuModel.time > danmakuAgent1.danmakuModel.time
+                return danmakuAgent0.danmakuModel.time < danmakuAgent1.danmakuModel.time
             })
             OSSpinLockLock(&self.spinLock)
             self.danmakuAgents = danmakuAgents
@@ -108,7 +108,7 @@ public class HJDanmakuVideoSource: HJDanmakuSource {
             return 0
         }
         let index = self.danmakuAgents.index { (tempDanmakuAgent) -> Bool in
-            return danmakuAgent.danmakuModel.time >= tempDanmakuAgent.danmakuModel.time
+            return danmakuAgent.danmakuModel.time <= tempDanmakuAgent.danmakuModel.time
         }
         return index == nil ? count: index!
     }
@@ -145,7 +145,8 @@ public class HJDanmakuVideoSource: HJDanmakuSource {
         }
         let minTime = CGFloat(floorf(Float(time.time * 10)) / 10.0)
         let maxTime = time.MaxTime()
-        let indexSet = (self.danmakuAgents as NSArray).indexesOfObjects(options: .concurrent) { (agent, idx, stop) -> Bool in
+        let set = IndexSet.init(integersIn: lastIndex ..< self.danmakuAgents.count)
+        let indexSet = (self.danmakuAgents as NSArray).indexesOfObjects(at: set, options: .concurrent) { (agent, idx, stop) -> Bool in
             let danmakuAgent: HJDanmakuAgent = agent as! HJDanmakuAgent
             if danmakuAgent.danmakuModel.time > maxTime {
                 stop.pointee = true
