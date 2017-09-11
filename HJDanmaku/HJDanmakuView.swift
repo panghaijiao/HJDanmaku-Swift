@@ -730,6 +730,89 @@ extension HJDanmakuView {
     
 }
 
+// MARK: - Touch
+
+extension HJDanmakuView {
+    
+    func danmakuAgentAtPoint(_ point: CGPoint) -> HJDanmakuAgent? {
+        var sortDanmakuAgents = self.visibleDanmakuAgents()
+        guard sortDanmakuAgents.count > 0 else {
+            return nil
+        }
+        sortDanmakuAgents.sort { (obj1, obj2) -> Bool in
+            return obj1.danmakuCell!.zIndex > obj2.danmakuCell!.zIndex
+        }
+        for danmakuAgent in sortDanmakuAgents {
+            let rect = danmakuAgent.danmakuCell!.layer.presentation()!.frame
+            if rect.contains(point) {
+                return danmakuAgent
+            }
+        }
+        return nil
+    }
+    
+    override open func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        self.selectDanmakuAgent = nil
+        if let danmakuAgent = self.danmakuAgentAtPoint(point) {
+            if danmakuAgent.danmakuCell!.selectionStyle == .HJDanmakuCellSelectionStyleDefault {
+                self.selectDanmakuAgent = danmakuAgent
+                return self
+            }
+            let cellPoint = self.convert(point, to: danmakuAgent.danmakuCell!)
+            return danmakuAgent.danmakuCell!.hitTest(cellPoint, with: event)
+        }
+        return super.hitTest(point, with: event)
+    }
+    
+    override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        guard let selectDanmakuAgent = self.selectDanmakuAgent else {
+            return
+        }
+        let shouldSelect: Bool = (self.delegate?.danmakuView(self, shouldSelectCell: selectDanmakuAgent.danmakuCell!, danmaku: selectDanmakuAgent.danmakuModel))!
+        if !shouldSelect {
+            self.selectDanmakuAgent = nil
+        }
+    }
+    
+    override open func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
+        guard let selectDanmakuAgent = self.selectDanmakuAgent else {
+            return
+        }
+        let rect = selectDanmakuAgent.danmakuCell!.layer.presentation()!.frame
+        let point = touches.first?.location(in: self)
+        guard let touchPoint = point else {
+            return
+        }
+        if !rect.contains(touchPoint) {
+            self.selectDanmakuAgent = nil
+        }
+    }
+    
+    override open func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        guard let selectDanmakuAgent = self.selectDanmakuAgent else {
+            return
+        }
+        let rect = selectDanmakuAgent.danmakuCell!.layer.presentation()!.frame
+        let point = touches.first?.location(in: self)
+        guard let touchPoint = point else {
+            return
+        }
+        if rect.contains(touchPoint) {
+            self.delegate?.danmakuView(self, didSelectCell: selectDanmakuAgent.danmakuCell!, danmaku: selectDanmakuAgent.danmakuModel)
+            self.selectDanmakuAgent = nil
+        }
+    }
+    
+    override open func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
+        self.selectDanmakuAgent = nil
+    }
+    
+}
+
 extension HJDanmakuView {
     
     public func register(_ cellClass: HJDanmakuCell.Type, forCellReuseIdentifier identifier: String) {
