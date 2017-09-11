@@ -22,39 +22,6 @@ func onGlobalThreadAsync(closure: @escaping () -> ()) {
     }
 }
 
-public struct HJDanmakuTime {
-    
-    public var time: CGFloat
-    public var interval: CGFloat
-    
-    public func MaxTime() -> CGFloat {
-        return time + interval;
-    }
-    
-}
-
-public class HJDanmakuAgent {
-    
-    let danmakuModel: HJDanmakuModel
-    var danmakuCell: HJDanmakuCell?
-    
-    var force: Bool = false
-    
-    var toleranceCount = 4
-    var remainingTime: CGFloat = 5.0
-    
-    var px: CGFloat = 0
-    var py: CGFloat = 0
-    var size: CGSize = CGSize.zero
-    
-    var yIdx: Int = -1 // the line of trajectory, default -1
-    
-    public init(danmakuModel: HJDanmakuModel) {
-        self.danmakuModel = danmakuModel
-    }
-    
-}
-
 //_______________________________________________________________________________________________________________
 
 public protocol HJDanmakuViewDelegate : NSObjectProtocol {
