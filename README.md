@@ -2,7 +2,7 @@
 
 ![](https://img.shields.io/badge/build-passing-brightgreen.svg)
 ![](https://img.shields.io/badge/Cocoapods-v1.1.1-blue.svg)
-![](https://img.shields.io/badge/language-objc-5787e5.svg)
+![](https://img.shields.io/badge/language-swift-5787e5.svg)
 ![](https://img.shields.io/badge/license-MIT-brightgreen.svg)  
 
 HJDanmaku-Swift is a high performance danmaku engine for iOS. For more details please click [here](http://www.olinone.com/?p=755)
