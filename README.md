@@ -11,6 +11,8 @@ HJDanmaku-Swift is a high performance danmaku engine for iOS. For more details p
 
 Compared to the version 1.0, HJDanmaku 2.0 has better performance, Such as high performance, large concurrent and better fluency. surely, you can customize the cell style according to product requirements. In version 2.0，it provides a new live mode to meet the live scene.
 
+Get the version of objc at [here](https://github.com/panghaijiao/HJDanmakuDemo) 
+
 #### Fearture
 
 *  `[Performance]` The average CPU usage for total is less than 5% .
