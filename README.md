@@ -42,39 +42,39 @@ pod 'HJDanmaku-Swift', '~> 2.0'
 
 ```
 // init config with mode HJDanmakuModeLive
-HJDanmakuConfiguration *config = [[HJDanmakuConfiguration alloc] initWithDanmakuMode:HJDanmakuModeLive];
-HJDanmakuView *danmakuView = [[HJDanmakuView alloc] initWithFrame:self.view.bounds configuration:config];
+let config = HJDanmakuConfiguration.init(danmakuMode: .HJDanmakuModeLive)
+self.danmakuView = HJDanmakuView.init(frame: self.view.bounds, configuration: config)
 ```
 
 #### Video Mode
 
 ```
 // init config with mode HJDanmakuModeVideo
-HJDanmakuConfiguration *config = [[HJDanmakuConfiguration alloc] initWithDanmakuMode:HJDanmakuModeVideo];
-HJDanmakuView *danmakuView = [[HJDanmakuView alloc] initWithFrame:self.view.bounds configuration:config];
+let config = HJDanmakuConfiguration.init(danmakuMode: .HJDanmakuModeVideo)
+self.danmakuView = HJDanmakuView.init(frame: self.view.bounds, configuration: config)
 ```
 
 
 #### Send Danmaku
 
 ```
-DemoDanmakuModel *danmaku = [[DemoDanmakuModel alloc] initWithType:HJDanmakuTypeLR];
-danmaku.text = @"😊😊olinone.com😊😊";
-[self.danmakuView sendDanmaku:danmaku forceRender:YES];
+let danmakuModel = DemoDanmakuModel.init(danmakuType: .HJDanmakuTypeLR)
+danmakuModel.text = "😊😊olinone.com😊😊"
+self.danmakuView.sendDanmaku(danmakuModel, forceRender: true)
 ```
 
 #### Custom style
 
 ```
 // register cell class before dequeue
-[self.danmakuView registerClass:[DemoDanmakuCell class] forCellReuseIdentifier:@"cell"];
+self.danmakuView.register(DemoDanmakuCell.self, forCellReuseIdentifier: "cell")
 
 // configure cell with custom style
-DemoDanmakuCell *cell = [danmakuView dequeueReusableCellWithIdentifier:@"cell"];
-DemoDanmakuModel *model = (DemoDanmakuModel *)danmaku;
-cell.textLabel.font = model.textFont;
-cell.textLabel.textColor = model.textColor;
-cell.textLabel.text = model.text;
+let cell = (danmakuView.dequeueReusableCell(withIdentifier: "cell"))!
+let model: DemoDanmakuModel = danmaku as! DemoDanmakuModel
+cell.textLabel.font = model.textFont
+cell.textLabel.textColor = model.textColor
+cell.textLabel.text = model.text
 ```
 
 ##  History Release
