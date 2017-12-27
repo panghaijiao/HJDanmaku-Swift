@@ -35,7 +35,7 @@ Concurrency | ⭐️⭐️ | ⭐️⭐️⭐️⭐️⭐️
 ## Podfile
 
 ```
-pod 'HJDanmaku-Swift', '~> 2.0'
+pod 'HJDanmaku-Swift', '~> 2.0.0'
 ```
 
 ## Usage
