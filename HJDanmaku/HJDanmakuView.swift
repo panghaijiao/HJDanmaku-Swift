@@ -115,7 +115,7 @@ open class HJDanmakuView: UIView {
     var playTime: HJDanmakuTime = HJDanmakuTime.init(time: 0, interval: HJFrameInterval)
     
     var cellClassInfo: Dictionary = Dictionary<String, HJDanmakuCell.Type>.init()
-    var cellReusePool: Dictionary = Dictionary<String, Array<HJDanmakuCell>>.init()
+    var cellReusePool: Dictionary = Dictionary<String, NSMutableArray>.init()
     
     var danmakuQueuePool: Array = Array<HJDanmakuAgent>.init()
     var renderingDanmakus: Array = Array<HJDanmakuAgent>.init()
@@ -710,7 +710,8 @@ extension HJDanmakuView {
             return cell
         }
         OSSpinLockLock(&reuseLock);
-        let cell: HJDanmakuCell = cells!.last!
+        let cell: HJDanmakuCell = cells!.lastObject! as! HJDanmakuCell
+        cells!.removeLastObject()
         OSSpinLockUnlock(&reuseLock);
         cell.zIndex = 0
         cell.prepareForReuse()
@@ -722,9 +723,10 @@ extension HJDanmakuView {
         OSSpinLockLock(&reuseLock);
         var cells = self.cellReusePool[identifier]
         if cells == nil {
-            cells = Array.init()
+            cells = NSMutableArray.init()
+            self.cellReusePool[identifier] = cells
         }
-        cells!.append(danmakuCell)
+        cells!.add(danmakuCell)
         OSSpinLockUnlock(&reuseLock);
     }
     
