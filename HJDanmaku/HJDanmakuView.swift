@@ -181,7 +181,7 @@ open class HJDanmakuView: UIView {
         if self.displayLink == nil {
             self.displayLink = CADisplayLink.init(target: self, selector: #selector(update))
             self.displayLink!.frameInterval = Int(60.0 * HJFrameInterval)
-            self.displayLink!.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
+            self.displayLink!.add(to: RunLoop.main, forMode: .common)
         }
         self.displayLink?.isPaused = false;
     }
@@ -326,7 +326,7 @@ extension HJDanmakuView {
         onMainThreadAsync {
             for danmakuAgent in danmakuAgents {
                 if danmakuAgent.danmakuModel.danmakuType == .HJDanmakuTypeLR {
-                    UIView.animate(withDuration: TimeInterval(danmakuAgent.remainingTime), delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
+                    UIView.animate(withDuration: TimeInterval(danmakuAgent.remainingTime), delay: 0, options: UIView.AnimationOptions.curveLinear, animations: {
                         danmakuAgent.danmakuCell!.frame = CGRect.init(origin: CGPoint.init(x: -danmakuAgent.size.width, y: danmakuAgent.py), size: danmakuAgent.size)
                     }, completion: nil)
                 }
@@ -336,7 +336,7 @@ extension HJDanmakuView {
     
     // MARK: - Render
     
-    func update() {
+    @objc func update() {
         var time = HJDanmakuTime.init(time: 0, interval: HJFrameInterval)
         time.time = (self.dataSource?.playTimeWithDanmakuView(self))!
         if self.configuration.danmakuMode == .HJDanmakuModeVideo && time.time <= 0 {
@@ -458,7 +458,7 @@ extension HJDanmakuView {
             self.delegate?.danmakuView(self, willDisplayCell: danmakuAgent.danmakuCell!, danmaku: danmakuAgent.danmakuModel)
             self.insertSubview(danmakuAgent.danmakuCell!, at: danmakuAgent.danmakuCell!.zIndex)
             if danmakuAgent.danmakuModel.danmakuType == .HJDanmakuTypeLR {
-                UIView.animate(withDuration: TimeInterval(danmakuAgent.remainingTime), delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
+                UIView.animate(withDuration: TimeInterval(danmakuAgent.remainingTime), delay: 0, options: UIView.AnimationOptions.curveLinear, animations: {
                     danmakuAgent.danmakuCell!.frame = CGRect.init(origin: CGPoint.init(x: -danmakuAgent.size.width, y: danmakuAgent.py), size: danmakuAgent.size)
                 }, completion: nil)
             }
