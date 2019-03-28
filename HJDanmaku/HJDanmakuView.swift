@@ -709,10 +709,8 @@ extension HJDanmakuView {
             let cell = cellType.init(reuseIdentifier: identifier)
             return cell
         }
-        OSSpinLockLock(&reuseLock);
         let cell: HJDanmakuCell = cells!.lastObject! as! HJDanmakuCell
         cells!.removeLastObject()
-        OSSpinLockUnlock(&reuseLock);
         cell.zIndex = 0
         cell.prepareForReuse()
         return cell
@@ -720,14 +718,12 @@ extension HJDanmakuView {
     
     func recycleCellToReusePool(_ danmakuCell: HJDanmakuCell) {
         let identifier: String = danmakuCell.reuseIdentifier
-        OSSpinLockLock(&reuseLock);
         var cells = self.cellReusePool[identifier]
         if cells == nil {
             cells = NSMutableArray.init()
             self.cellReusePool[identifier] = cells
         }
         cells!.add(danmakuCell)
-        OSSpinLockUnlock(&reuseLock);
     }
     
 }
