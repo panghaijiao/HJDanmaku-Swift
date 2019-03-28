@@ -45,7 +45,8 @@ public class HJDanmakuAgent {
 
 public class HJDanmakuSource {
     
-    var spinLock: OSSpinLock = OS_SPINLOCK_INIT
+    let semaphore = DispatchSemaphore(value: 1)
+    
     var danmakuAgents: Array<HJDanmakuAgent> = Array<HJDanmakuAgent>.init()
     
     static func danmakuSource(withModel mode: HJDanmakuMode) -> HJDanmakuSource {
@@ -56,8 +57,9 @@ public class HJDanmakuSource {
         assert(false, "subClass implementation")
     }
     
-    public func sendDanmaku(_ danmaku: HJDanmakuModel, forceRender force: Bool) {
+    public func sendDanmaku(_ danmaku: HJDanmakuModel, forceRender force: Bool) -> HJDanmakuAgent? {
         assert(false, "subClass implementation")
+        return nil
     }
     
     public func sendDanmakus(_ danmakus: Array<HJDanmakuModel>) {
@@ -84,22 +86,24 @@ public class HJDanmakuVideoSource: HJDanmakuSource {
             danmakuAgents.sort(by: { (danmakuAgent0, danmakuAgent1) -> Bool in
                 return danmakuAgent0.danmakuModel.time < danmakuAgent1.danmakuModel.time
             })
-            OSSpinLockLock(&self.spinLock)
+            self.semaphore.wait()
             self.danmakuAgents = danmakuAgents
             self.lastIndex = 0
-            OSSpinLockUnlock(&self.spinLock)
+            self.semaphore.signal()
             completion()
         }
     }
     
-    override public func sendDanmaku(_ danmaku: HJDanmakuModel, forceRender force: Bool) {
+    override public func sendDanmaku(_ danmaku: HJDanmakuModel, forceRender force: Bool) -> HJDanmakuAgent? {
         let danmakuAgent = HJDanmakuAgent.init(danmakuModel: danmaku)
         danmakuAgent.force = true
-        OSSpinLockLock(&self.spinLock)
+        self.semaphore.wait()
         let index = self.indexOfDanmakuAgent(danmakuAgent)
         self.danmakuAgents.insert(danmakuAgent, at: index)
         self.lastIndex = 0
-        OSSpinLockUnlock(&self.spinLock)
+        self.semaphore.signal()
+        
+        return danmakuAgent
     }
     
     func indexOfDanmakuAgent(_ danmakuAgent: HJDanmakuAgent) -> Int {
@@ -115,9 +119,9 @@ public class HJDanmakuVideoSource: HJDanmakuSource {
     
     override public func sendDanmakus(_ danmakus: Array<HJDanmakuModel>) {
         onGlobalThreadAsync {
-            OSSpinLockLock(&self.spinLock)
+            self.semaphore.wait()
             var danmakuAgents = Array<HJDanmakuAgent>.init(self.danmakuAgents)
-            OSSpinLockUnlock(&self.spinLock)
+            self.semaphore.signal()
             for danmaku in danmakus {
                 let danmakuAgent = HJDanmakuAgent.init(danmakuModel: danmaku)
                 danmakuAgents.append(danmakuAgent)
@@ -125,18 +129,18 @@ public class HJDanmakuVideoSource: HJDanmakuSource {
             danmakuAgents.sort(by: { (danmakuAgent0, danmakuAgent1) -> Bool in
                 return danmakuAgent0.danmakuModel.time > danmakuAgent1.danmakuModel.time
             })
-            OSSpinLockLock(&self.spinLock)
+            self.semaphore.wait()
             self.danmakuAgents = danmakuAgents
             self.lastIndex = 0
-            OSSpinLockUnlock(&self.spinLock)
+            self.semaphore.signal()
         }
     }
     
     override public func fetchDanmakuAgents(forTime time: HJDanmakuTime) -> Array<HJDanmakuAgent>? {
-        OSSpinLockLock(&self.spinLock)
+        self.semaphore.wait()
         var lastIndex = self.lastIndex < self.danmakuAgents.count ? self.lastIndex: NSNotFound
         if lastIndex == NSNotFound {
-            OSSpinLockUnlock(&self.spinLock)
+            self.semaphore.signal()
             return nil
         }
         let lastDanmakuAgent = self.danmakuAgents[self.lastIndex]
@@ -154,12 +158,12 @@ public class HJDanmakuVideoSource: HJDanmakuSource {
             return danmakuAgent.remainingTime <= 0 && danmakuAgent.danmakuModel.time >= minTime && danmakuAgent.danmakuModel.time < maxTime
         }
         if indexSet.count == 0 {
-            OSSpinLockUnlock(&self.spinLock)
+            self.semaphore.signal()
             return nil
         }
         let danmakuAgents = Array.init(self.danmakuAgents[indexSet.first!...indexSet.last!])
         self.lastIndex = indexSet.first!
-        OSSpinLockUnlock(&self.spinLock)
+        self.semaphore.signal()
         return danmakuAgents
     }
     
@@ -173,20 +177,22 @@ public class HJDanmakuLiveSource: HJDanmakuSource {
             for danmaku in danmakus {
                 let agent = HJDanmakuAgent.init(danmakuModel: danmaku)
                 danmakuAgents.append(agent)
-                OSSpinLockLock(&self.spinLock)
+                self.semaphore.wait()
                 self.danmakuAgents = danmakuAgents
-                OSSpinLockUnlock(&self.spinLock)
+                self.semaphore.signal()
                 completion()
             }
         }
     }
     
-    override public func sendDanmaku(_ danmaku: HJDanmakuModel, forceRender force: Bool) {
+    override public func sendDanmaku(_ danmaku: HJDanmakuModel, forceRender force: Bool) -> HJDanmakuAgent? {
         let danmakuAgent = HJDanmakuAgent.init(danmakuModel: danmaku)
         danmakuAgent.force = force
-        OSSpinLockLock(&self.spinLock)
+        self.semaphore.wait()
         self.danmakuAgents.append(danmakuAgent)
-        OSSpinLockUnlock(&self.spinLock)
+        self.semaphore.signal()
+        
+        return danmakuAgent
     }
     
     override public func sendDanmakus(_ danmakus: Array<HJDanmakuModel>) {
@@ -198,9 +204,9 @@ public class HJDanmakuLiveSource: HJDanmakuSource {
                 let agent = HJDanmakuAgent.init(danmakuModel: danmaku)
                 danmakuAgents.append(agent)
                 if idx == lastIndex || danmakuAgents.count % interval == 0 {
-                    OSSpinLockLock(&self.spinLock)
+                    self.semaphore.wait()
                     self.danmakuAgents.append(contentsOf: danmakuAgents)
-                    OSSpinLockUnlock(&self.spinLock)
+                    self.semaphore.signal()
                     danmakuAgents.removeAll()
                 }
             }
@@ -208,10 +214,10 @@ public class HJDanmakuLiveSource: HJDanmakuSource {
     }
     
     override public func fetchDanmakuAgents(forTime time: HJDanmakuTime) -> Array<HJDanmakuAgent>? {
-        OSSpinLockLock(&self.spinLock)
+        self.semaphore.wait()
         let danmakuAgents = NSArray.init(array: self.danmakuAgents) as! Array<HJDanmakuAgent>
         self.danmakuAgents.removeAll()
-        OSSpinLockUnlock(&self.spinLock)
+        self.semaphore.signal()
         return danmakuAgents
     }
     
