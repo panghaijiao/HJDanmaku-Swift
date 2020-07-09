@@ -38,7 +38,7 @@ class VideoDemoViewController: UIViewController {
         self.danmakuView.delegate = self
         self.danmakuView.dataSource = self
         self.danmakuView.register(DemoDanmakuCell.self, forCellReuseIdentifier: "cell")
-        self.danmakuView.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
+        self.danmakuView.autoresizingMask = [UIView.AutoresizingMask.flexibleWidth, UIView.AutoresizingMask.flexibleHeight]
         self.view.insertSubview(self.danmakuView, aboveSubview: self.imageView)
         
         let danmakufile = (Bundle.main.path(forResource: "danmakufile", ofType: nil))!
@@ -50,11 +50,11 @@ class VideoDemoViewController: UIViewController {
             let type = HJDanmakuType.init(rawValue: "\(typeString.integerValue % 3)")!
             let danmakuModel = DemoDanmakuModel.init(danmakuType: type)
             danmakuModel.time = CGFloat(Float(pArray[0])! / 1000.0)
-            danmakuModel.text = danmaku["m"] as! String
+            danmakuModel.text = danmaku["m"] as? String
             danmakuModel.textFont = Int(pArray[2]) == 1 ? UIFont.systemFont(ofSize: 20): UIFont.systemFont(ofSize: 18)
             danmakuModel.textColor = UIColor.colorWithHexString(hex: pArray[3] as NSString)
             return danmakuModel
-        } as Array<DemoDanmakuModel>!
+            } as Array<DemoDanmakuModel>?
         self.danmakuView.prepareDanmakus(danmakuModels)
     }
     
@@ -74,7 +74,7 @@ class VideoDemoViewController: UIViewController {
         }
     }
     
-    func onTimeCount() {
+    @objc func onTimeCount() {
         self.progressSlider.value += 0.1 / 120
         if self.progressSlider.value > 120 {
             self.progressSlider.value = 0
@@ -123,8 +123,8 @@ extension VideoDemoViewController: HJDanmakuViewDateSource {
     
     func danmakuView(_ danmakuView: HJDanmakuView, widthForDanmaku danmaku: HJDanmakuModel) -> CGFloat {
         let model: DemoDanmakuModel = danmaku as! DemoDanmakuModel
-        let attributes: [String : Any]? = [NSFontAttributeName: model.textFont]
-        return model.text.size(attributes: attributes).width + 1.0
+        let attributes = [NSAttributedString.Key.font: model.textFont]
+        return model.text.size(withAttributes: attributes as [NSAttributedString.Key : Any]).width + 1.0
     }
     
     func danmakuView(_ danmakuView: HJDanmakuView, cellForDanmaku danmaku: HJDanmakuModel) -> HJDanmakuCell {

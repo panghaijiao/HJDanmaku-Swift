@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 public struct HJDanmakuTime {
     
@@ -111,7 +112,7 @@ public class HJDanmakuVideoSource: HJDanmakuSource {
         guard count > 0 else {
             return 0
         }
-        let index = self.danmakuAgents.index { (tempDanmakuAgent) -> Bool in
+        let index = self.danmakuAgents.firstIndex { (tempDanmakuAgent) -> Bool in
             return danmakuAgent.danmakuModel.time <= tempDanmakuAgent.danmakuModel.time
         }
         return index == nil ? count: index!

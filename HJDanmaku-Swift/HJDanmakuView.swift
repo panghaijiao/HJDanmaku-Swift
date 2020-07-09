@@ -95,7 +95,6 @@ open class HJDanmakuView: UIView {
     
     public let configuration: HJDanmakuConfiguration
     
-    var reuseLock: OSSpinLock = OS_SPINLOCK_INIT
     lazy var renderQueue: DispatchQueue = {
         return DispatchQueue.init(label: "com.olinone.danmaku.renderQueue")
     }()
@@ -180,7 +179,7 @@ open class HJDanmakuView: UIView {
         self.resumeDisplayingDanmakus()
         if self.displayLink == nil {
             self.displayLink = CADisplayLink.init(target: self, selector: #selector(update))
-            self.displayLink!.frameInterval = Int(60.0 * HJFrameInterval)
+            self.displayLink!.preferredFramesPerSecond = Int(1.0 / HJFrameInterval)
             self.displayLink!.add(to: RunLoop.main, forMode: .common)
         }
         self.displayLink?.isPaused = false;

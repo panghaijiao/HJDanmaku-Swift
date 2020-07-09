@@ -10,6 +10,7 @@
 #endif
 #endif
 
+#import "HJDanmaku.h"
 
 FOUNDATION_EXPORT double HJDanmaku_SwiftVersionNumber;
 FOUNDATION_EXPORT const unsigned char HJDanmaku_SwiftVersionString[];

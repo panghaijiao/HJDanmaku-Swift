@@ -1,16 +1,16 @@
 PODS:
-  - HJDanmaku-Swift (2.0.1)
+  - HJDanmaku-Swift (2.0.2)
 
 DEPENDENCIES:
   - HJDanmaku-Swift (from `./`)
 
 EXTERNAL SOURCES:
   HJDanmaku-Swift:
-    :path: ./
+    :path: "./"
 
 SPEC CHECKSUMS:
-  HJDanmaku-Swift: 90d018b4bb8f9da346a2b9ea99416ba9a27d57a5
+  HJDanmaku-Swift: 2f06b3a0f0734389a34d78a357280d5cb6d06811
 
-PODFILE CHECKSUM: b9ddd7e13a57afc1e4f76d4d04a2211ebda59a1d
+PODFILE CHECKSUM: 1a6781ff34d0bb38f0210930ea8f24b0df000197
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.8.4

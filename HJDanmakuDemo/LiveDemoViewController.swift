@@ -77,7 +77,7 @@ class LiveDemoViewController: UIViewController {
         self.danmakuView.delegate = self
         self.danmakuView.dataSource = self
         self.danmakuView.register(DemoDanmakuCell.self, forCellReuseIdentifier: "cell")
-        self.danmakuView.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
+        self.danmakuView.autoresizingMask = [UIView.AutoresizingMask.flexibleWidth, UIView.AutoresizingMask.flexibleHeight]
         self.view.insertSubview(self.danmakuView, aboveSubview: self.imageView)
     }
     
@@ -104,7 +104,7 @@ class LiveDemoViewController: UIViewController {
         }
     }
     
-    func randomSendNewDanmaku() {
+    @objc func randomSendNewDanmaku() {
         self.index += 1
         if self.index >= self.danmakus.count {
             return
@@ -114,7 +114,7 @@ class LiveDemoViewController: UIViewController {
         let typeString: NSString = pArray[1] as NSString;
         let type = HJDanmakuType.init(rawValue: "\(typeString.integerValue % 3)")!
         let danmakuModel = DemoDanmakuModel.init(danmakuType: type)
-        danmakuModel.text = danmaku["m"] as! String
+        danmakuModel.text = danmaku["m"] as? String
         danmakuModel.textFont = Int(pArray[2]) == 1 ? UIFont.systemFont(ofSize: 20): UIFont.systemFont(ofSize: 18)
         danmakuModel.textColor = UIColor.colorWithHexString(hex: pArray[3] as NSString)
         self.danmakuView.sendDanmaku(danmakuModel, forceRender: false)
@@ -177,8 +177,8 @@ extension LiveDemoViewController: HJDanmakuViewDateSource {
     
     func danmakuView(_ danmakuView: HJDanmakuView, widthForDanmaku danmaku: HJDanmakuModel) -> CGFloat {
         let model: DemoDanmakuModel = danmaku as! DemoDanmakuModel
-        let attributes: [String : Any]? = [NSFontAttributeName: model.textFont]
-        return model.text.size(attributes: attributes).width + 1.0
+        let attributes = [NSAttributedString.Key.font: model.textFont]
+        return model.text.size(withAttributes: attributes as [NSAttributedString.Key : Any]).width + 1.0
     }
 
     func danmakuView(_ danmakuView: HJDanmakuView, cellForDanmaku danmaku: HJDanmakuModel) -> HJDanmakuCell {

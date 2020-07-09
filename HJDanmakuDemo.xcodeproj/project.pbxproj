@@ -7,14 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		84F3610521806F9700F8C0EE /* HJDanmaku.h in Headers */ = {isa = PBXBuildFile; fileRef = 84F3610321806F9700F8C0EE /* HJDanmaku.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		84F3610821806F9700F8C0EE /* HJDanmaku.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F3610121806F9700F8C0EE /* HJDanmaku.framework */; };
-		84F3610921806F9700F8C0EE /* HJDanmaku.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 84F3610121806F9700F8C0EE /* HJDanmaku.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		84F3611321806FB000F8C0EE /* HJDanmakuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F3610E21806FAF00F8C0EE /* HJDanmakuModel.swift */; };
-		84F3611421806FB000F8C0EE /* HJDanmakuConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F3610F21806FB000F8C0EE /* HJDanmakuConfiguration.swift */; };
-		84F3611521806FB000F8C0EE /* HJDanmakuSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F3611021806FB000F8C0EE /* HJDanmakuSource.swift */; };
-		84F3611621806FB000F8C0EE /* HJDanmakuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F3611121806FB000F8C0EE /* HJDanmakuCell.swift */; };
-		84F3611721806FB000F8C0EE /* HJDanmakuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F3611221806FB000F8C0EE /* HJDanmakuView.swift */; };
+		4342223157EB1EBA962660BF /* Pods_HJDanmakuDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67DD0AFEC9A9FCD529E18F7A /* Pods_HJDanmakuDemo.framework */; };
 		A05AE12B1F4C26DF00248BAD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05AE11F1F4C26DF00248BAD /* AppDelegate.swift */; };
 		A05AE12C1F4C26DF00248BAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A05AE1201F4C26DF00248BAD /* Assets.xcassets */; };
 		A05AE12D1F4C26DF00248BAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A05AE1211F4C26DF00248BAD /* LaunchScreen.storyboard */; };
@@ -26,46 +19,10 @@
 		A05AE1341F4C26DF00248BAD /* VideoDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05AE1291F4C26DF00248BAD /* VideoDemoViewController.swift */; };
 		A05AE1351F4C26DF00248BAD /* VideoDemoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A05AE12A1F4C26DF00248BAD /* VideoDemoViewController.xib */; };
 		A08E4EB71F553E440015D643 /* DemoDanmakuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E4EB61F553E440015D643 /* DemoDanmakuModel.swift */; };
-		D57085C2CD2FBD77259A5360 /* Pods_HJDanmakuDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B3E66886D6951862341E4F3 /* Pods_HJDanmakuDemo.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		84F3610621806F9700F8C0EE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A039EFC91F2F333700259173 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 84F3610021806F9700F8C0EE;
-			remoteInfo = HJDanmaku;
-		};
-/* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		84F3610D21806F9700F8C0EE /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				84F3610921806F9700F8C0EE /* HJDanmaku.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		533B24E91CFC09AF5E61B51F /* Pods-HJDanmakuDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HJDanmakuDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-HJDanmakuDemo/Pods-HJDanmakuDemo.release.xcconfig"; sourceTree = "<group>"; };
-		5B933828B454DAD63885EF21 /* Pods-HJDanmaku-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HJDanmaku-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HJDanmaku-Swift/Pods-HJDanmaku-Swift.debug.xcconfig"; sourceTree = "<group>"; };
-		7A6D1AAC5D798709ED47E3E9 /* Pods-HJDanmakuDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HJDanmakuDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HJDanmakuDemo/Pods-HJDanmakuDemo.debug.xcconfig"; sourceTree = "<group>"; };
-		84F3610121806F9700F8C0EE /* HJDanmaku.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HJDanmaku.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		84F3610321806F9700F8C0EE /* HJDanmaku.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HJDanmaku.h; sourceTree = "<group>"; };
-		84F3610421806F9700F8C0EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		84F3610E21806FAF00F8C0EE /* HJDanmakuModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HJDanmakuModel.swift; sourceTree = "<group>"; };
-		84F3610F21806FB000F8C0EE /* HJDanmakuConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HJDanmakuConfiguration.swift; sourceTree = "<group>"; };
-		84F3611021806FB000F8C0EE /* HJDanmakuSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HJDanmakuSource.swift; sourceTree = "<group>"; };
-		84F3611121806FB000F8C0EE /* HJDanmakuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HJDanmakuCell.swift; sourceTree = "<group>"; };
-		84F3611221806FB000F8C0EE /* HJDanmakuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HJDanmakuView.swift; sourceTree = "<group>"; };
-		8B3E66886D6951862341E4F3 /* Pods_HJDanmakuDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HJDanmakuDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		67DD0AFEC9A9FCD529E18F7A /* Pods_HJDanmakuDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HJDanmakuDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A039EFD11F2F333700259173 /* HJDanmakuDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HJDanmakuDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A05AE11F1F4C26DF00248BAD /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A05AE1201F4C26DF00248BAD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -79,70 +36,29 @@
 		A05AE1291F4C26DF00248BAD /* VideoDemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoDemoViewController.swift; sourceTree = "<group>"; };
 		A05AE12A1F4C26DF00248BAD /* VideoDemoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoDemoViewController.xib; sourceTree = "<group>"; };
 		A08E4EB61F553E440015D643 /* DemoDanmakuModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoDanmakuModel.swift; sourceTree = "<group>"; };
-		B89A6B5EBDCFE759AA746B6C /* Pods-HJDanmaku-Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HJDanmaku-Swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-HJDanmaku-Swift/Pods-HJDanmaku-Swift.release.xcconfig"; sourceTree = "<group>"; };
+		AC90927E4FF59113B1593567 /* Pods-HJDanmakuDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HJDanmakuDemo.release.xcconfig"; path = "Target Support Files/Pods-HJDanmakuDemo/Pods-HJDanmakuDemo.release.xcconfig"; sourceTree = "<group>"; };
+		D9444202E266183559803089 /* Pods-HJDanmakuDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HJDanmakuDemo.debug.xcconfig"; path = "Target Support Files/Pods-HJDanmakuDemo/Pods-HJDanmakuDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		84F360FE21806F9700F8C0EE /* Frameworks */ = {
+		9F8967FC7DC696EECB70F3F7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A039EFCE1F2F333700259173 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				84F3610821806F9700F8C0EE /* HJDanmaku.framework in Frameworks */,
-				D57085C2CD2FBD77259A5360 /* Pods_HJDanmakuDemo.framework in Frameworks */,
+				4342223157EB1EBA962660BF /* Pods_HJDanmakuDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3548677ECAE04026028F0A72 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				8B3E66886D6951862341E4F3 /* Pods_HJDanmakuDemo.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		7A3DB1C082081E54B8ECFAA0 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				5B933828B454DAD63885EF21 /* Pods-HJDanmaku-Swift.debug.xcconfig */,
-				B89A6B5EBDCFE759AA746B6C /* Pods-HJDanmaku-Swift.release.xcconfig */,
-				7A6D1AAC5D798709ED47E3E9 /* Pods-HJDanmakuDemo.debug.xcconfig */,
-				533B24E91CFC09AF5E61B51F /* Pods-HJDanmakuDemo.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		84F3610221806F9700F8C0EE /* HJDanmaku */ = {
-			isa = PBXGroup;
-			children = (
-				84F3611121806FB000F8C0EE /* HJDanmakuCell.swift */,
-				84F3610F21806FB000F8C0EE /* HJDanmakuConfiguration.swift */,
-				84F3610E21806FAF00F8C0EE /* HJDanmakuModel.swift */,
-				84F3611021806FB000F8C0EE /* HJDanmakuSource.swift */,
-				84F3611221806FB000F8C0EE /* HJDanmakuView.swift */,
-				84F3610321806F9700F8C0EE /* HJDanmaku.h */,
-				84F3610421806F9700F8C0EE /* Info.plist */,
-			);
-			path = HJDanmaku;
-			sourceTree = "<group>";
-		};
 		A039EFC81F2F333700259173 = {
 			isa = PBXGroup;
 			children = (
 				A05AE11E1F4C26DF00248BAD /* HJDanmakuDemo */,
-				84F3610221806F9700F8C0EE /* HJDanmaku */,
 				A039EFD21F2F333700259173 /* Products */,
-				7A3DB1C082081E54B8ECFAA0 /* Pods */,
-				3548677ECAE04026028F0A72 /* Frameworks */,
+				C8E8FE38707287026E57EEE8 /* Pods */,
+				FA6ABEFE316B587CC5137941 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -150,7 +66,6 @@
 			isa = PBXGroup;
 			children = (
 				A039EFD11F2F333700259173 /* HJDanmakuDemo.app */,
-				84F3610121806F9700F8C0EE /* HJDanmaku.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -174,54 +89,40 @@
 			path = HJDanmakuDemo;
 			sourceTree = "<group>";
 		};
+		C8E8FE38707287026E57EEE8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D9444202E266183559803089 /* Pods-HJDanmakuDemo.debug.xcconfig */,
+				AC90927E4FF59113B1593567 /* Pods-HJDanmakuDemo.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		FA6ABEFE316B587CC5137941 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				67DD0AFEC9A9FCD529E18F7A /* Pods_HJDanmakuDemo.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
-/* Begin PBXHeadersBuildPhase section */
-		84F360FC21806F9700F8C0EE /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				84F3610521806F9700F8C0EE /* HJDanmaku.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
 /* Begin PBXNativeTarget section */
-		84F3610021806F9700F8C0EE /* HJDanmaku */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 84F3610C21806F9700F8C0EE /* Build configuration list for PBXNativeTarget "HJDanmaku" */;
-			buildPhases = (
-				84F360FC21806F9700F8C0EE /* Headers */,
-				84F360FD21806F9700F8C0EE /* Sources */,
-				84F360FE21806F9700F8C0EE /* Frameworks */,
-				84F360FF21806F9700F8C0EE /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = HJDanmaku;
-			productName = HJDanmaku;
-			productReference = 84F3610121806F9700F8C0EE /* HJDanmaku.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		A039EFD01F2F333700259173 /* HJDanmakuDemo */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A039EFE31F2F333700259173 /* Build configuration list for PBXNativeTarget "HJDanmakuDemo" */;
 			buildPhases = (
-				94BD44882A7FEB464E5AD9BB /* [CP] Check Pods Manifest.lock */,
+				47725F8414312EDAF075F90F /* [CP] Check Pods Manifest.lock */,
 				A039EFCD1F2F333700259173 /* Sources */,
-				A039EFCE1F2F333700259173 /* Frameworks */,
 				A039EFCF1F2F333700259173 /* Resources */,
-				4A6B377BED32D6EE74E3F57A /* [CP] Embed Pods Frameworks */,
-				282A79DECD8A4C8417E54D38 /* [CP] Copy Pods Resources */,
-				84F3610D21806F9700F8C0EE /* Embed Frameworks */,
+				9F8967FC7DC696EECB70F3F7 /* Frameworks */,
+				12716CD02C04E63605561E15 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				84F3610721806F9700F8C0EE /* PBXTargetDependency */,
 			);
 			name = HJDanmakuDemo;
 			productName = "HJDanmaku-Swift";
@@ -235,14 +136,9 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 1150;
 				ORGANIZATIONNAME = olinone;
 				TargetAttributes = {
-					84F3610021806F9700F8C0EE = {
-						CreatedOnToolsVersion = 10.0;
-						LastSwiftMigration = 1000;
-						ProvisioningStyle = Automatic;
-					};
 					A039EFD01F2F333700259173 = {
 						CreatedOnToolsVersion = 8.3.3;
 						ProvisioningStyle = Automatic;
@@ -251,7 +147,7 @@
 			};
 			buildConfigurationList = A039EFCC1F2F333700259173 /* Build configuration list for PBXProject "HJDanmakuDemo" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -263,19 +159,11 @@
 			projectRoot = "";
 			targets = (
 				A039EFD01F2F333700259173 /* HJDanmakuDemo */,
-				84F3610021806F9700F8C0EE /* HJDanmaku */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		84F360FF21806F9700F8C0EE /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		A039EFCF1F2F333700259173 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -291,28 +179,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		282A79DECD8A4C8417E54D38 /* [CP] Copy Pods Resources */ = {
+		12716CD02C04E63605561E15 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HJDanmakuDemo/Pods-HJDanmakuDemo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4A6B377BED32D6EE74E3F57A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-HJDanmakuDemo/Pods-HJDanmakuDemo-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-HJDanmakuDemo/Pods-HJDanmakuDemo-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/HJDanmaku-Swift/HJDanmaku_Swift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -321,19 +194,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HJDanmakuDemo/Pods-HJDanmakuDemo-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HJDanmakuDemo/Pods-HJDanmakuDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		94BD44882A7FEB464E5AD9BB /* [CP] Check Pods Manifest.lock */ = {
+		47725F8414312EDAF075F90F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			inputFileListPaths = (
 			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-HJDanmakuDemo-checkManifestLockResult.txt",
 			);
@@ -345,18 +222,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		84F360FD21806F9700F8C0EE /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				84F3611421806FB000F8C0EE /* HJDanmakuConfiguration.swift in Sources */,
-				84F3611621806FB000F8C0EE /* HJDanmakuCell.swift in Sources */,
-				84F3611521806FB000F8C0EE /* HJDanmakuSource.swift in Sources */,
-				84F3611721806FB000F8C0EE /* HJDanmakuView.swift in Sources */,
-				84F3611321806FB000F8C0EE /* HJDanmakuModel.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		A039EFCD1F2F333700259173 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -372,14 +237,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		84F3610721806F9700F8C0EE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 84F3610021806F9700F8C0EE /* HJDanmaku */;
-			targetProxy = 84F3610621806F9700F8C0EE /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
 		A05AE1211F4C26DF00248BAD /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -392,74 +249,11 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		84F3610A21806F9700F8C0EE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = HJDanmaku/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = cp.swift.HJDanmaku;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		84F3610B21806F9700F8C0EE /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = HJDanmaku/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = cp.swift.HJDanmaku;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 		A039EFE11F2F333700259173 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -470,6 +264,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -477,6 +272,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -503,12 +299,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -516,6 +313,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -526,6 +324,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -533,6 +332,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -553,56 +353,46 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		A039EFE41F2F333700259173 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7A6D1AAC5D798709ED47E3E9 /* Pods-HJDanmakuDemo.debug.xcconfig */;
+			baseConfigurationReference = D9444202E266183559803089 /* Pods-HJDanmakuDemo.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = HJDanmakuDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.olinone.HJDanmaku-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		A039EFE51F2F333700259173 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 533B24E91CFC09AF5E61B51F /* Pods-HJDanmakuDemo.release.xcconfig */;
+			baseConfigurationReference = AC90927E4FF59113B1593567 /* Pods-HJDanmakuDemo.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = HJDanmakuDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.olinone.HJDanmaku-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		84F3610C21806F9700F8C0EE /* Build configuration list for PBXNativeTarget "HJDanmaku" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				84F3610A21806F9700F8C0EE /* Debug */,
-				84F3610B21806F9700F8C0EE /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		A039EFCC1F2F333700259173 /* Build configuration list for PBXProject "HJDanmakuDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

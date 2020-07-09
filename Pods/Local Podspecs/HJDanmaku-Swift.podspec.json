@@ -1,6 +1,6 @@
 {
   "name": "HJDanmaku-Swift",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "summary": "A high performance danmaku engine for iOS",
   "description": "A high performance danmaku engine for iOS, http://www.olinone.com/?p=186",
   "homepage": "https://github.com/panghaijiao/HJDanmaku-Swift",
@@ -9,13 +9,13 @@
     "panghaijiao": "275742376@qq.com"
   },
   "platforms": {
-    "ios": "8.0"
+    "ios": "10.0"
   },
   "source": {
     "git": "https://github.com/panghaijiao/HJDanmaku-Swift.git",
-    "tag": "2.0.1"
+    "tag": "2.0.2"
   },
-  "source_files": "HJDanmaku",
+  "source_files": "HJDanmaku-Swift",
   "frameworks": "UIKit",
   "requires_arc": true
 }
