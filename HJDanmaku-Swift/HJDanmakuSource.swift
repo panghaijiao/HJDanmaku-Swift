@@ -58,6 +58,7 @@ public class HJDanmakuSource {
         assert(false, "subClass implementation")
     }
     
+    @discardableResult
     public func sendDanmaku(_ danmaku: HJDanmakuModel, forceRender force: Bool) -> HJDanmakuAgent? {
         assert(false, "subClass implementation")
         return nil
