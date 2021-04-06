@@ -179,11 +179,11 @@ public class HJDanmakuLiveSource: HJDanmakuSource {
             for danmaku in danmakus {
                 let agent = HJDanmakuAgent.init(danmakuModel: danmaku)
                 danmakuAgents.append(agent)
-                self.semaphore.wait()
-                self.danmakuAgents = danmakuAgents
-                self.semaphore.signal()
-                completion()
             }
+            self.semaphore.wait()
+            self.danmakuAgents = danmakuAgents
+            self.semaphore.signal()
+            completion()
         }
     }
     
