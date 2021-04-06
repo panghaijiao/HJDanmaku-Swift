@@ -144,7 +144,7 @@ open class HJDanmakuView: UIView {
         self.isPrepared = false
         self.stop()
         
-        guard let danmakus = danmakus else {
+        guard let danmakus = danmakus, danmakus.count > 0 else {
             self.isPrepared = true
             onMainThreadAsync {
                 self.delegate?.prepareCompletedWithDanmakuView(self)
